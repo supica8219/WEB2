@@ -1,0 +1,42 @@
+html,body{
+    overflow: hidden;
+    background-color: rgb(23, 46, 60);
+}
+.box {
+    width:40vw;
+    height:57vh;
+    margin:20vh 1vw;
+    border-radius:5px;
+    text-decoration: none;
+}
+.box p {
+    font-size:50px;
+    line-height:50vh;
+    text-align: center;
+    color:black;
+    margin:0;
+}
+.box span {
+    font-size:50px;
+    line-height:57vh;
+    text-align: center;
+    color:black;
+    margin:0;
+}
+.box-wrapper {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.header {
+    position:absolute;
+    top: 6vh;left:6.5vw;
+    width:70vw;
+    font-size:25px;
+    color:white;
+    border-bottom: 2px solid gray;
+}
+.header span{
+    font-size:30px;
+    color:white;
+}
