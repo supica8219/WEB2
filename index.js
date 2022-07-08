@@ -9,7 +9,7 @@ const socketIO = require('socket.io');
 const app = express();
 const server = http.Server(app);
 const io = socketIO(server);
-const sharp = require('sharp')
+//const sharp = require('sharp')
 const value_table = [
   [45,-11,4,-1,-1,4,-11,45],
   [-11,-16,-1,-3,-3,2,-16,-11],
@@ -277,8 +277,20 @@ function botAction(room_name){
 
 app.use('/static', express.static(__dirname + '/static'));
 //RETURN HTML FILE
-app.get('/play', (request, response) => {
-  response.sendFile(path.join(__dirname, '/static/othello.html'))
+app.get('/zunko', (request, response) => {
+  response.sendFile(path.join(__dirname, '/static/CPU/zunko.html'))
+});
+app.get('/itako', (request, response) => {
+  response.sendFile(path.join(__dirname, '/static/CPU/itako.html'))
+});
+app.get('/kiritan', (request, response) => {
+  response.sendFile(path.join(__dirname, '/static/CPU/kiritan.html'))
+});
+app.get('/shinobi', (request, response) => {
+  response.sendFile(path.join(__dirname, '/static/CPU/shinobi.html'))
+});
+app.get('/metan', (request, response) => {
+  response.sendFile(path.join(__dirname, '/static/CPU/metan.html'))
 });
 app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, '/static/top.html'))
