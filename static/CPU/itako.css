@@ -3,52 +3,19 @@
     padding:0;
   }
   body{
-    
-  }
-  .scoreLavel{
-    position:absolute;
-    top:550px;
-    left:0px;width:100%;
-    z-index:5;
-    font-size:48px;
-    background-color:black;
-    color:white;text-align:center;
-  }
-  #msg-box{
-    position:fixed;
-    top:5%;left:50%;
-    z-index:10;
-    padding:2px 4px;
-    border:3px solid #fffdbd;
-    text-align:center;
-    font-size:30px;
-    background-color:#ffd500;
-    border-radius:5px;
-    color:#23221b;
-    display:none;
-  }
-  #info_box{
-    position:absolute;
-    bottom:0;left:0;
-    width:100%;
-    background-color:rgba(0,0,0,0.8);
-  }
-  #header{
-    background-color:#ffe666;
   }
   #blackBackground{
     position:absolute;
-    top:5%;left:5%;
-    background-color:black;
+    top:0%;left:5%;
+    background-color:rgba(0,0,0,1);
   }
   #discLayer{
     position:absolute;
-    top:5%;left:5%;
+    top:0%;left:5%;
   }
-  #character {
+  canvas {
     position:absolute;
-    top:0;right:-25%;
-    background-image: url('/static/image/back2.png');
+    top:0;right:0%;
     width:100%;
     height:100vh;
     z-index:-1;
@@ -59,7 +26,7 @@
     position:relative;
     width:60%;
     height:100vh;
-    background-color: black;
+    background-color: rgba(0,0,0,0);
     background-size:cover;
   }
   .disc_effect {
@@ -73,41 +40,6 @@
       transform: rotateY(540deg);
      }
   }
-  /* モーダルウィンドウ */
-  #modal-window {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
-    background-color: #dfdddd;
-    border-radius: 5px;
-    z-index: 11;
-    padding: 2rem;
-  }
-  /* 閉じるボタン */
-  #button-close {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    padding: 1em;
-    background-color: #c96931;
-    color: #eaeaea;
-    border-radius: 20rem;
-    cursor: pointer;
-  }
-  #overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-  }
   @keyframes bg {
     0% {
       background-position: 0 0;
@@ -116,3 +48,24 @@
       background-position: 680px -680px;
     }
   }
+#loader1{
+  position:absolute;top:0;left:0vw;
+  width:100vw;height:100vh;
+  background-color: rgb(255, 255, 255);
+  transition: all 2s;
+  z-index: 5;
+}
+.loaded1 {
+  animation: d_effect2 2.0s forwards;
+}
+@keyframes d_effect2 {
+  0%{
+    left:0vw;
+    }
+  70%{
+    left:0vw;
+  }
+ 100%{
+  left:-100vw;
+    }
+ }

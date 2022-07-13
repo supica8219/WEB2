@@ -1,16 +1,21 @@
-body {
-    background-color: rgba(4,4,4,0.95);
+body{
+    background-image: url("/static/image/top.gif");
+
 }
 html,body{
-    overflow: hidden
+    overflow: hidden;
+    margin:0;
 }
 .cpu_box{
     position:relative;
-    margin:5vh 0.8vw;
+    margin:5vh 6vw;
     border-radius:8px;
 }
+.cpu_box :hover{
+    background-color: rgba(195, 195, 195, 0.342);
+}
 .cpu_box img{
-    width:18vw;
+    width:20vw;
     height:85vh;
     border-radius:8px;
 }
@@ -18,7 +23,7 @@ html,body{
     margin:0;
     display:flex;
     height:100vh;
-    background-color: rgba(4,4,4,0.95);
+    background-color: rgba(4,4,4,0.4);
 }
 .cpu_name {
     color:white;

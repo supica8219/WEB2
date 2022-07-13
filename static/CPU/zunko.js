@@ -82,12 +82,10 @@ function drawDiscs(affectedDiscs){
           disc.style.opacity = 1.0         
         }
         if(value == 11){
-          disc.style.backgroundImage = "radial-gradient(#333333 30%, black 70%)";
-          disc.style.opacity = 0.4
+          disc.style.backgroundColor = "rgba(255,255,255,0.3)";
+          disc.style.borderRadius ="0px";
         }
         if(value == 22){
-          disc.style.backgroundImage = "radial-gradient(white 30%,#cccccc 70%)";
-          disc.style.opacity = 0.4
         } 
         if(value == 100){
             disc.style.backgroundImage = "radial-gradient(#333333 29.9%, black 70%)";
@@ -115,3 +113,8 @@ socket.on('ret_table',(table,room_name,turn,affectedDiscs) => {
 socket.on('connect',()=>{
   gameStart();
 });
+window.onload = function() {
+  const spinner = document.getElementById('loader1');
+  spinner.src="/static/image/aida3.png";
+  spinner.classList.add("loaded1");
+}

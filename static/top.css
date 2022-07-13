@@ -1,29 +1,44 @@
-html,body{
+body{
     overflow: hidden;
-    background-color: rgb(23, 46, 60);
+    background-color: rgb(78, 176, 36);
+    background-image:
+      radial-gradient(#a6ea75 10%, transparent 10%),
+      radial-gradient(#a6ea75 10%, transparent 10%);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+}
+#body2{
+    width:100vw;
+    height:100vh;
+    background-image: url("/static/image/PIN.png");
+    background-size: cover;
 }
 .box {
     width:40vw;
-    height:57vh;
-    margin:20vh 1vw;
+    height:20vh;
+    margin:1vw;
     border-radius:5px;
     text-decoration: none;
 }
 .box p {
     font-size:50px;
-    line-height:50vh;
+    line-height:20vh;
     text-align: center;
+    font-weight:bolder;
     color:black;
     margin:0;
 }
 .box span {
-    font-size:50px;
-    line-height:57vh;
+    font-size:45px;
+    line-height:20vh;
     text-align: center;
+    font-weight:bolder;
     color:black;
     margin:0;
 }
 .box-wrapper {
+    position:absolute;
+    bottom:0;left:5vw;
     display:flex;
     align-items: center;
     justify-content: center;
@@ -32,11 +47,12 @@ html,body{
     position:absolute;
     top: 6vh;left:6.5vw;
     width:70vw;
-    font-size:25px;
-    color:white;
-    border-bottom: 2px solid gray;
+    font-size:35px;
+    border-bottom: 7px solid rgb(255, 255, 255);
+
 }
-.header span{
-    font-size:30px;
+.header{
+    font-size:60px;
     color:white;
+    margin:0;
 }
