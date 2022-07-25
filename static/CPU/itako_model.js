@@ -1,4 +1,3 @@
-console.log("a")
 // PixiJS
 const {
 	Application,
@@ -11,11 +10,15 @@ const {
 	Vector: { lerp },
 	Utils: { clamp }
 } = Kalidokit;
-
+var motion ={
+    "t0":
+    [
+        { "file":"/static/zunko/motions/motion_01_MOJIMOJI_ZUNKO.mtn","fade_out":0}
+    ],
+}
 // 1, Live2Dモデルへのパスを指定する
-//const modelUrl = "/static/hiyori/hiyori_pro_t10.model3.json";
-const modelUrl = "/static/itako/Itako_Pro_ver.1.1.81923.model.json";
-
+const modelUrl = "/static/itako/Itako_Pro_ver.1.1.model3.json";
+const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
 
 // メインの処理開始
@@ -32,21 +35,26 @@ let currentModel, facemesh;
 
 	// 3, Live2Dモデルをロードする
 	currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-	currentModel.scale.set(0.7);
+	currentModel.scale.set(0.45);
 	currentModel.interactive = true;
 	currentModel.anchor.set(0.5, 0.5);
-	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 0.6);
+	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 1.1);
     console.log(currentModel.internalModel.coreModel);
 	// 4, Live2Dモデルをドラッグ可能にする
 
+	// 4, Live2Dモデルをドラッグ可能にする
 	currentModel.on("pointerdown", e => {
-		console.log("point")
 		currentModel.offsetX = e.data.global.x - currentModel.position.x;
 		currentModel.offsetY = e.data.global.y - currentModel.position.y;
 		currentModel.dragging = true;
 	});
 	currentModel.on("pointerup", e => {
-		currentModel.dragging = true;
+		currentModel.dragging = false;
+		const updateFn = currentModel.internalModel.motionManager.update;
+		const coreModel = currentModel.internalModel.coreModel;
+		console.log(currentModel.internalModel.motionManager);
+		console.log(currentModel.internalModel.motionManager.update)
+		
 	});
 	currentModel.on("pointermove", e => {
 		if (currentModel.dragging) {
@@ -58,13 +66,14 @@ let currentModel, facemesh;
 	});
 
 	// 5, Live2Dモデルを拡大/縮小可能に(マウスホイール)
-	/*document.querySelector("#my-live2d").addEventListener("wheel", e => {
+	document.querySelector("#my-live2d").addEventListener("wheel", e => {
 		e.preventDefault();
 		currentModel.scale.set(
 			clamp(currentModel.scale.x + event.deltaY * -0.001, -0.5, 10)
 		);
-	});*/
-	let hayachi = PIXI.Sprite.fromImage('/static/image/zunda.jpg');
+	});
+	
+	let hayachi = PIXI.Sprite.fromImage('/static/image/yoru.jpg');
 	hayachi.anchor.set(0.5);
 	hayachi.x = app.screen.width/2;
 	hayachi.y = app.screen.height/2;

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>東北オセロ　VSイタコ</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="/static/CPU/kiritan.css" rel="stylesheet">
+  <link rel="icon" href="/static/image/zunko2048.png">
+  <!-- Live2D -->
+  <script src="/static/CPU/live2dcubismcore.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
+  <!-- PixiJS -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
+      <!-- Kalidokit -->
+  <script src="//cdn.jsdelivr.net/npm/kalidokit@1.1/dist/kalidokit.umd.js"></script>
+</head>
+
+<body>
+  <img src=""id="loader1"></img>
+  <div id="result" style="background-color: rgba(0,0,0,0.7);width:50%;
+  height:100%;position: absolute;top:0;left:0;z-index:50;display:none;">
+  <div id="result-wrapper"style="width:50%;height:50%;margin:25% 25%;">
+    <p id ="winlose"style="color:yellow;font-size:60px;text-align: center;font-weight:bolder;">WINNER!</p>
+    <p style="color:white;font-size:20px;text-align: center;font-weight:bolder;">黒:<span id="bp">20</span> 白:<span id="wp">40</span></p>
+    <div class="button_solid005">
+      <a href="/zunko"style="text-decoration:none;">もう一度遊ぶ</a>
+    </div>
+    <div class="button_solid004">
+      <a href="/cpu"style="text-decoration:none;">他の相手と遊ぶ</a>
+    </div>
+  </div>
+  </div>
+  <a href="/cpu" style="display:block;position:absolute;bottom:10px;
+  left:10px;;padding:10px;z-index:9999;border-radius:50%;
+  border:3px solid white;background-color: rgba(0,0,0,0.4);">
+      <span class="material-symbols-outlined"style="font-size:40px;color:white;line-height:55px;">
+        keyboard_double_arrow_left
+      </span>
+  </a>
+  <p id="point"style="display:block;position:absolute;top:10px;
+  right:10px;;padding:10px;z-index:9999;color:white;font-size:20px;
+  background-color: rgba(0,0,0,0.4);">
+黒:<span id="bp2">3</span> 白:<span id="wp2">3</span>
+  </p>
+  <div id="main_wrapper">
+    <div id="msg-box"></div>
+    <div id="table">
+      <div id="blackBackground"></div>
+     <div id="discLayer"></div>
+     <div id="canMoveLayer"></div>
+    </div>
+  </div>
+  <canvas id="my-live2d"></canvas>
+
+  <script type="module" src="/static/CPU/kiritan_model.js"></script>
+    <script src="/static/CPU/kiritan.js"></script>
+</body>
+</html>

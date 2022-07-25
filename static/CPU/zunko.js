@@ -89,11 +89,11 @@ function drawDiscs(affectedDiscs){
         } 
         if(value == 100){
             disc.style.backgroundImage = "radial-gradient(#333333 29.9%, black 70%)";
-            disc.style.border = "2px solid #000022";
+            disc.style.border = "1px solid #000022";
         }
         if(value == 200){
             disc.style.backgroundImage = "radial-gradient(white 29.9%,#cccccc 70%)";
-            disc.style.border = "2px solid #aaaaff";
+            disc.style.border = "1.5px solid #6a5acd";
         }
         discLayer.appendChild(disc);
         if(value==1){bcount++;}else{wcount++;}
@@ -102,8 +102,9 @@ function drawDiscs(affectedDiscs){
   } 
 }
 //PRINT RETURN TABLE
-socket.on('ret_table',(table,room_name,turn,affectedDiscs) => {
-  console.log(affectedDiscs)
+socket.on('ret_table',(table,room_name,turn,affectedDiscs,white_num,black_num) => {
+  document.getElementById('bp2').innerHTML = black_num;
+  document.getElementById('wp2').innerHTML = white_num;
   discs=table
   console.log(table)
   console.log(room_name)
@@ -113,12 +114,21 @@ socket.on('ret_table',(table,room_name,turn,affectedDiscs) => {
 socket.on('connect',()=>{
   gameStart();
 });
-socket.on('result',()=>{
+socket.on('result',(white_point,black_point)=>{
   var result = document.getElementById('result')
   result.style.display = "block"
+  document.getElementById('bp').innerHTML = black_point;
+  document.getElementById('wp').innerHTML = white_point;
+  if(bp > wp){
+    document.getElementById("winlose").innerHTML = "WIN!"
+    document.getElementById("winlose").style.Color = "yellow"
+  }else{
+    document.getElementById("winlose").innerHTML = "LOSE"
+    document.getElementById("winlose").style.Color = "blue"
+  }
 })
 window.onload = function() {
   const spinner = document.getElementById('loader1');
-  spinner.src="/static/image/aida3.png";
+  spinner.src="/static/image/aida1.png";
   spinner.classList.add("loaded1");
 }

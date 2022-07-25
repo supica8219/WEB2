@@ -23,9 +23,15 @@ canvas {
   background-size:cover;
   background-repeat:no-repeat;
 }
+#main_wrapper{
+  position:absolute;
+  top:5%;
+  left:5%;
+}
 #table{
   position:relative;
   width:60%;
+  margin:0;
   height:100vh;
   background-color: rgba(0,0,0,0);
   background-size:cover;

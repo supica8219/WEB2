@@ -35,10 +35,10 @@ let currentModel, facemesh;
 
 	// 3, Live2Dモデルをロードする
 	currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-	currentModel.scale.set(0.7);
+	currentModel.scale.set(0.9);
 	currentModel.interactive = true;
 	currentModel.anchor.set(0.5, 0.5);
-	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 0.6);
+	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 0.45);
     console.log(currentModel.internalModel.coreModel);
 	// 4, Live2Dモデルをドラッグ可能にする
 

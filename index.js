@@ -72,7 +72,8 @@ io.on('connection', function(socket) {
       }
     }
     rooms[room_name].users.push(socket.id);
-    io.to(room_name).emit('ret_table',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,[]);
+    io.to(room_name).emit('ret_table',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,[],
+    ret_white_num(room_name),ret_black_num(room_name));
   })
   socket.on('admin',(role)=>{
     var room_name = users[socket.id].room;
@@ -110,7 +111,7 @@ io.on('connection', function(socket) {
       flipDiscs(affectedDiscs,room_name);
       rooms[room_name].table[row][column] = turn;
       if(!canMove(1,room_name) && !canMove(2,room_name)){
-        io.to(room_name).emit('result')
+        io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
         console.log("ゲーム終了");
       }
       if(turn==1 && canMove(2,room_name)){
@@ -121,7 +122,8 @@ io.on('connection', function(socket) {
       }
       var TABLE = retCanMoveTable(rooms[room_name].turn,room_name);
       TABLE[row][column] = turn * 100;
-      io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs);
+      io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs,
+      ret_white_num(room_name),ret_black_num(room_name));
       if(rooms[room_name].bot==true && !((rooms[room_name].turn==1&&role=="black")||(rooms[room_name].turn==2&&role=="white"))){
         botAction2(room_name);
       }
@@ -234,7 +236,7 @@ function botAction2(room_name){
     flipDiscs(affectedDiscs,room_name);
     rooms[room_name].table[row][column] = turn;
     if(!canMove(1,room_name) && !canMove(2,room_name)){
-      io.to(room_name).emit('result')
+      io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
       console.log("ゲーム終了")
     }
     if(turn==1 && canMove(2,room_name)){
@@ -246,7 +248,8 @@ function botAction2(room_name){
     }
     var TABLE = retCanMoveTable(rooms[room_name].turn,room_name);
     TABLE[row][column] = turn * 100;
-    io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs);
+    io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs,
+    ret_white_num(room_name),ret_black_num(room_name));
     return;
   })
 }
@@ -260,7 +263,7 @@ function botAction(room_name){
     flipDiscs(affectedDiscs,room_name);
     rooms[room_name].table[row][column] = turn;
     if(!canMove(1,room_name) && !canMove(2,room_name)){
-      io.to(room_name).emit('result')
+      io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
       console.log("ゲーム終了")
     }
     if(turn==1 && canMove(2,room_name)){
@@ -272,12 +275,34 @@ function botAction(room_name){
     }
     var TABLE = retCanMoveTable(rooms[room_name].turn,room_name);
     TABLE[row][column] = turn * 100;
-    io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs);
+    io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs,
+    ret_white_num(room_name),ret_black_num(room_name));
     return;
   }
   })
 }
-
+function ret_white_num(room_name){
+  var count = 0;
+  for(var i=0; i<8; i++){
+    for(var j=0; j<8; j++){
+      if(rooms[room_name].table[i][j] == 2){
+        count++;
+      }
+    }
+  }
+  return count;
+}
+function ret_black_num(room_name){
+  var count = 0;
+  for(var i=0; i<8; i++){
+    for(var j=0; j<8; j++){
+      if(rooms[room_name].table[i][j] == 1){
+        count++;
+      }
+    }
+  }
+  return count;
+}
 app.use('/static', express.static(__dirname + '/static'));
 //RETURN HTML FILE
 app.get('/zunko', (request, response) => {
