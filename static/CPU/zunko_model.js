@@ -1,4 +1,3 @@
-console.log("a")
 // PixiJS
 const {
 	Application,
@@ -11,11 +10,15 @@ const {
 	Vector: { lerp },
 	Utils: { clamp }
 } = Kalidokit;
-
+var motion ={
+    "t0":
+    [
+        { "file":"/static/zunko/motions/motion_01_MOJIMOJI_ZUNKO.mtn","fade_out":0}
+    ],
+}
 // 1, Live2Dモデルへのパスを指定する
-//const modelUrl = "/static/hiyori/hiyori_pro_t10.model3.json";
 const modelUrl = "/static/zunkoA/Zunko_MODEL_FREE_TypeA.model.json";
-
+const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
 
 // メインの処理開始
@@ -39,14 +42,19 @@ let currentModel, facemesh;
     console.log(currentModel.internalModel.coreModel);
 	// 4, Live2Dモデルをドラッグ可能にする
 
+	// 4, Live2Dモデルをドラッグ可能にする
 	currentModel.on("pointerdown", e => {
-		console.log("point")
 		currentModel.offsetX = e.data.global.x - currentModel.position.x;
 		currentModel.offsetY = e.data.global.y - currentModel.position.y;
 		currentModel.dragging = true;
 	});
 	currentModel.on("pointerup", e => {
-		currentModel.dragging = true;
+		currentModel.dragging = false;
+		const updateFn = currentModel.internalModel.motionManager.update;
+		const coreModel = currentModel.internalModel.coreModel;
+		console.log(currentModel.internalModel.motionManager);
+		console.log(currentModel.internalModel.motionManager.update)
+		
 	});
 	currentModel.on("pointermove", e => {
 		if (currentModel.dragging) {
@@ -58,12 +66,13 @@ let currentModel, facemesh;
 	});
 
 	// 5, Live2Dモデルを拡大/縮小可能に(マウスホイール)
-	/*document.querySelector("#my-live2d").addEventListener("wheel", e => {
+	document.querySelector("#my-live2d").addEventListener("wheel", e => {
 		e.preventDefault();
 		currentModel.scale.set(
 			clamp(currentModel.scale.x + event.deltaY * -0.001, -0.5, 10)
 		);
-	});*/
+	});
+	
 	let hayachi = PIXI.Sprite.fromImage('/static/image/zunda.jpg');
 	hayachi.anchor.set(0.5);
 	hayachi.x = app.screen.width/2;

@@ -22,7 +22,22 @@
 
 <body>
   <img src=""id="loader1">a</img>
-  <a href="/cpu" style="display:block;position:absolute;bottom:10px;;left:10px;;padding:10px;z-index:2;border-radius:50%;border:3px solid white;background-color: rgba(0,0,0,0.4);">
+  <div id="result" style="background-color: rgba(0,0,0,0.7);width:50%;
+  height:100%;position: absolute;top:0;left:0;z-index:50;display:none;">
+  <div id="result-wrapper"style="width:50%;height:50%;margin:25% 25%;">
+    <p style="color:yellow;font-size:60px;text-align: center;font-weight:bolder;">WINNER!</p>
+    <p style="color:white;font-size:20px;text-align: center;font-weight:bolder;">黒:20 白:40</p>
+    <div class="button_solid005">
+      <a href="/zunko"style="text-decoration:none;">もう一度遊ぶ</a>
+    </div>
+    <div class="button_solid004">
+      <a href="/cpu"style="text-decoration:none;">他の相手と遊ぶ</a>
+    </div>
+  </div>
+  </div>
+  <a href="/cpu" style="display:block;position:absolute;bottom:10px;
+  left:10px;;padding:10px;z-index:9999;border-radius:50%;
+  border:3px solid white;background-color: rgba(0,0,0,0.4);">
       <span class="material-symbols-outlined"style="font-size:40px;color:white;line-height:55px;">
         keyboard_double_arrow_left
       </span>

@@ -23,9 +23,15 @@ canvas {
   background-size:cover;
   background-repeat:no-repeat;
 }
+#main_wrapper{
+  position:absolute;
+  top:5%;
+  left:5%;
+}
 #table{
   position:relative;
   width:60%;
+  margin:0;
   height:100vh;
   background-color: rgba(0,0,0,0);
   background-size:cover;
@@ -70,3 +76,43 @@ canvas {
   left:-100vw;
     }
  }
+/* solid004 */
+.button_solid004 a {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px auto;
+  max-width: 240px;
+  padding: 20px 25px;
+  color: #FFF;
+  transition: 0.3s ease-in-out;
+  font-weight: 600;
+  background: #6bb6ff;
+  border-radius: 8px;
+  border-bottom: solid 5px #1d7fde;
+}
+.button_solid004 a:hover {
+  border-bottom: solid 2px #1d7fde;
+  transform: translateY(3px);
+}
+/* solid005 */
+.button_solid005 a {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px auto;
+  max-width: 240px;
+  padding: 20px 25px;
+  color: #FFF;
+  transition: 0.3s ease-in-out;
+  font-weight: 600;
+  background: #1dde5d;
+  border-radius: 8px;
+  border-bottom: solid 5px #15a244;
+}
+.button_solid005 a:hover {
+  border-bottom: solid 2px #15a244;
+  transform: translateY(3px);
+}

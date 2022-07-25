@@ -110,6 +110,7 @@ io.on('connection', function(socket) {
       flipDiscs(affectedDiscs,room_name);
       rooms[room_name].table[row][column] = turn;
       if(!canMove(1,room_name) && !canMove(2,room_name)){
+        io.to(room_name).emit('result')
         console.log("ゲーム終了");
       }
       if(turn==1 && canMove(2,room_name)){
@@ -233,6 +234,7 @@ function botAction2(room_name){
     flipDiscs(affectedDiscs,room_name);
     rooms[room_name].table[row][column] = turn;
     if(!canMove(1,room_name) && !canMove(2,room_name)){
+      io.to(room_name).emit('result')
       console.log("ゲーム終了")
     }
     if(turn==1 && canMove(2,room_name)){
@@ -258,6 +260,7 @@ function botAction(room_name){
     flipDiscs(affectedDiscs,room_name);
     rooms[room_name].table[row][column] = turn;
     if(!canMove(1,room_name) && !canMove(2,room_name)){
+      io.to(room_name).emit('result')
       console.log("ゲーム終了")
     }
     if(turn==1 && canMove(2,room_name)){
@@ -302,3 +305,4 @@ app.get('/cpu', (request, response) => {
 server.listen(4000, function() {
   console.log('Starting server on port 4000');
 });
+

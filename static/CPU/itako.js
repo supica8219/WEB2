@@ -113,6 +113,10 @@ socket.on('ret_table',(table,room_name,turn,affectedDiscs) => {
 socket.on('connect',()=>{
   gameStart();
 });
+socket.on('result',()=>{
+  var result = document.getElementById('result')
+  result.style.display = "block"
+})
 window.onload = function() {
   const spinner = document.getElementById('loader1');
   spinner.src="/static/image/aida2.png";

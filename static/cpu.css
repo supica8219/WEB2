@@ -34,6 +34,7 @@ html,body{
 .cpu_desc {
     position:absolute;
     width:100%;
+    border-radius:8px;
     background-color: rgba(0,0,0,0.7);
     top:0;left:0;
 }
