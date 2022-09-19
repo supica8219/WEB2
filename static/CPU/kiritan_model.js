@@ -17,13 +17,13 @@ var motion ={
     ],
 }
 // 1, Live2Dモデルへのパスを指定する
-const modelUrl = "/static/kiritan/Kiritan_Pro_ver.1.0.model.json";
+const modelUrl = "/static/example1/example1.model3.json";
 const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
-
+var abc= "bbb";
 // メインの処理開始
 (async function main() {
-
+   console.log("a")
 	// 2, PixiJSを準備する
 	const app = new PIXI.Application({
 		view: document.getElementById("my-live2d"),
@@ -35,10 +35,10 @@ let currentModel, facemesh;
 
 	// 3, Live2Dモデルをロードする
 	currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-	currentModel.scale.set(0.9);
+	currentModel.scale.set(0.7);
 	currentModel.interactive = true;
 	currentModel.anchor.set(0.5, 0.5);
-	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 1.1);
+	currentModel.position.set(window.innerWidth * 0.5, window.innerHeight * 1.1);
     console.log(currentModel.internalModel.coreModel);
 	// 4, Live2Dモデルをドラッグ可能にする
 
@@ -54,7 +54,8 @@ let currentModel, facemesh;
 		const coreModel = currentModel.internalModel.coreModel;
 		console.log(currentModel.internalModel.motionManager);
 		console.log(currentModel.internalModel.motionManager.update)
-		
+		console.log(currentModel.internalModel.motionManager.startMotion)
+		console.log(currentModel.internalModel.motionManager.startMotion('TapBody',0,2))
 	});
 	currentModel.on("pointermove", e => {
 		if (currentModel.dragging) {

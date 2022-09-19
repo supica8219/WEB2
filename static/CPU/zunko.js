@@ -18,8 +18,8 @@ var table = document.getElementById("table")
 function join_room(){
   var role = "black";
   var room_name = "room"+Math.random()*100;
-  var bot_flag = true;
-  socket.emit('join_room',room_name,bot_flag);
+  var room_mode = "one";
+  socket.emit('join_room',room_name,room_mode);
   socket.emit('admin',role)
 }
 function gameStart(){

@@ -19,6 +19,7 @@ const value_table = [
   [4,-1,2,-1,-1,2,-1,4],
   [-11,-16,-1,-3,-3,2,-16,-11],
   [45,-11,4,-1,-1,4,-11,45],];
+
 const room = class {
   constructor(room_name) { /* コンストラクタ */
     this.room_name = room_name;
@@ -26,7 +27,7 @@ const room = class {
     this.whiteID = "";
     this.turn = 1;
     this.users = [],
-    this.bot = false,
+    this.mode = "",
     this.table = [
       [0,0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0,0],
@@ -44,6 +45,8 @@ const user = class {
     this.id = id;
     this.room = "";
     this.role = "";
+    this.name = "";
+    this.chara = "";
   }
 }
 //ROOM LIST
@@ -51,12 +54,142 @@ var rooms = {}
 //USER LIST
 var users = {}
 //EVENTLISTENER
+rooms['room1'] = new room('room1');
+rooms['room1'].mode = 'multi';
+
 io.on('connection', function(socket) {
-  //CHECK CONNECTED
+  users[socket.id] = new user(socket.id);
   console.log("connected",socket.id);
-  users[socket.id] = new user(socket.id)
+  /*---------------------------------------------------- 
+  
+  ー－－－－－－－－－－オンライン対戦ー－－－－－－－－－－－－
+
+ ---------------------------------------------------------*/
+ socket.on("return_rooms",()=>{
+   io.to(socket.id).emit("ret_rooms",rooms);
+ })
+ socket.on("create_room",(create_name)=>{
+  rooms[create_name] = new room(create_name);
+  rooms[create_name].mode = 'multi';
+  io.to(socket.id).emit("ret_create_rooms");
+ })
+  //CHECK CONNECTED2
+  socket.on("join_room2",(room_name,room_mode,chara,name)=>{
+    for(let key of socket.rooms){
+      if(socket.id != key){
+        socket.leave(key)
+      }
+    } 
+    socket.join(room_name)
+    users[socket.id].room = room_name;
+    users[socket.id].chara = chara;
+    users[socket.id].name = name;
+    var room_name = users[socket.id].room;
+    if( rooms[room_name] == undefined ){
+      rooms[room_name] = new room(room_name);
+      rooms[room_name].mode = room_mode;
+    }
+    if(users.hasOwnProperty(rooms[room_name].whiteID)){var white_user = users[rooms[room_name].whiteID].name;var white_chara = users[rooms[room_name].whiteID].chara;}else {var white_user = "-----";var white_chara = ""}
+    if(users.hasOwnProperty(rooms[room_name].blackID)){var black_user = users[rooms[room_name].blackID].name;var black_chara = users[rooms[room_name].blackID].chara;}else {var black_user = "-----";var black_chara = ""}
+    io.to(room_name).emit('ret_role',white_user,black_user,white_chara,black_chara);
+    io.to(socket.id).emit('ret_table2',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,{},2,2);
+  });
+  socket.on('admin2',(role)=>{
+    var room_name = users[socket.id].room;
+    if(role=="black"&& rooms[room_name].blackID == "" && rooms[room_name].whiteID != socket.id){
+      rooms[room_name].blackID = socket.id;
+      users[socket.id].role = "black";
+      if(users.hasOwnProperty(rooms[room_name].whiteID)){
+      var white_user = users[rooms[room_name].whiteID].name;
+      var white_chara = users[rooms[room_name].whiteID].chara;
+      }else{ 
+      var white_user = ""
+      var white_chara = ""
+      }
+      if(users.hasOwnProperty(rooms[room_name].blackID)){
+      var black_user = users[rooms[room_name].blackID].name;
+      var black_chara = users[rooms[room_name].blackID].chara;
+      }else{ 
+      var black_user = ""
+      var black_chara = ""
+      }
+      console.log(black_chara+"1")
+      io.to(room_name).emit('ret_role',white_user,black_user,white_chara,black_chara);
+    }
+    if(role=="white"&& rooms[room_name].whiteID == ""&& rooms[room_name].blackID != socket.id){
+      rooms[room_name].whiteID = socket.id;
+      users[socket.id].role = "white";
+      if(users.hasOwnProperty(rooms[room_name].whiteID)){
+      var white_user = users[rooms[room_name].whiteID].name;
+      var white_chara = users[rooms[room_name].whiteID].chara;
+      }else{ 
+      var white_user = ""
+      var white_chara = ""
+      }
+      if(users.hasOwnProperty(rooms[room_name].blackID)){
+      var black_user = users[rooms[room_name].blackID].name;
+      var black_chara = users[rooms[room_name].blackID].chara;
+      }else{
+      var black_user = ""
+      var black_chara = ""
+      }
+      io.to(room_name).emit('ret_role',white_user,black_user,white_chara,black_chara);
+      console.log(black_chara+"2")
+    }
+  });
+  //SEND ACTION---------------------------------------------------------
+  socket.on('clickedSquare2', function(row,column){
+    var room_name = users[socket.id].room;
+    var turn = rooms[room_name].turn;
+    var role = users[socket.id].role;
+
+    if(!rooms.hasOwnProperty(room_name)){console.log("NOROOM");return;}
+    //ROLE REFUSE
+    if(role=="black"||role=="white"){}else{return;}
+    if(role=="black"&&turn==2){return;}
+    if(role=="white"&&turn==1){return;}
+    
+    if(canClickSpot(row,column,room_name,turn) == true){
+      var affectedDiscs = getAffectedDiscs(row,column,room_name,turn);
+      flipDiscs(affectedDiscs,room_name);
+      rooms[room_name].table[row][column] = turn;
+      if(!canMove(1,room_name) && !canMove(2,room_name)){
+        io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
+        console.log("ゲーム終了");
+      }
+      if(turn==1 && canMove(2,room_name)){
+        rooms[room_name].turn=2;
+      }
+      if(turn==2 && canMove(1,room_name)){
+        rooms[room_name].turn=1;
+      }
+      var TABLE = retCanMoveTable(rooms[room_name].turn,room_name);
+      TABLE[row][column] = turn * 100;
+      io.to(room_name).emit('ret_table2',TABLE,room_name,rooms[room_name].turn,affectedDiscs,
+      ret_white_num(room_name),ret_black_num(room_name));
+    }
+  });
+
+  //EMOTION
+  socket.on('send_emotion',(number)=>{
+    
+    var room_name = users[socket.id].room;
+    var role = users[socket.id].role;
+    console.log(number,room_name,role);
+    if(role == "black"){
+      io.to(rooms[room_name].whiteID).emit('emotion',number);
+    }
+    if(role == "white"){
+      io.to(rooms[room_name].blackID).emit('emotion',number);
+    }
+  });
+  /*
+  
+  ー－－－－－－－－－－CPU対戦ー－－－－－－－－－－－－
+
+  */
   //JOIN ROOM
-  socket.on("join_room", function(room_name,bot_flag){  
+  socket.on("join_room", function(room_name,room_mode){  
     for(let key of socket.rooms){
       console.log(socket.rooms)
       if(socket.id != key){
@@ -67,9 +200,8 @@ io.on('connection', function(socket) {
     users[socket.id].room = room_name;
     if( rooms[room_name] == undefined ){
       rooms[room_name] = new room(room_name);
-      if(bot_flag==true){
-        rooms[room_name].bot = true;
-      }
+      rooms[room_name].mode = room_mode;
+      rooms[room_name].bot = true;
     }
     rooms[room_name].users.push(socket.id);
     io.to(room_name).emit('ret_table',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,[],
@@ -126,6 +258,8 @@ io.on('connection', function(socket) {
       ret_white_num(room_name),ret_black_num(room_name));
       if(rooms[room_name].bot==true && !((rooms[room_name].turn==1&&role=="black")||(rooms[room_name].turn==2&&role=="white"))){
         botAction2(room_name);
+      }else{
+        console.log(rooms[room_name].bot,rooms[room_name].turn,role)
       }
     }
   });
@@ -136,6 +270,13 @@ io.on('connection', function(socket) {
       var role = users[socket.id].role; 
       if(rooms[room_name].blackID==socket.id)rooms[room_name].blackID="";
       if(rooms[room_name].whiteID==socket.id)rooms[room_name].whiteID="";
+    }
+    if(users[socket.id].room!=""){
+      var room_name=users[socket.id].room
+      console.log(room_name)
+    if(users.hasOwnProperty(rooms[room_name].whiteID)){var white_user = users[rooms[room_name].whiteID].name;}else {var white_user = "-----"}
+    if(users.hasOwnProperty(rooms[room_name].blackID)){var black_user = users[rooms[room_name].blackID].name;}else {var black_user = "-----"}
+      io.to(room_name).emit('ret_role',white_user,black_user)
     }
   });
 });
@@ -325,6 +466,15 @@ app.get('/', (request, response) => {
 })
 app.get('/cpu', (request, response) => {
     response.sendFile(path.join(__dirname, '/static/cpu.html'))
+})
+app.get('/robby',(request, response) => {
+    response.sendFile(path.join(__dirname, '/static/vs_room/robby.html'))
+})
+app.get('/rooms',(request, response) => {
+    response.sendFile(path.join(__dirname, '/static/vs_room/rooms.html'))
+})
+app.get('/vs_room',(request, response) => {
+  response.sendFile(path.join(__dirname, '/static/vs_room/vs_room.html'))
 })
 //LISTEN SERVER PORT 3000
 server.listen(4000, function() {

@@ -17,7 +17,7 @@ var motion ={
     ],
 }
 // 1, Live2Dモデルへのパスを指定する
-const modelUrl = "/static/itako/Itako_Pro_ver.1.1.model3.json";
+const modelUrl = "/static/Zunko_MODEL_ver.2.0/Zunko_MODEL_ver.2.0.model3.json";
 const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
 
@@ -35,7 +35,7 @@ let currentModel, facemesh;
 
 	// 3, Live2Dモデルをロードする
 	currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-	currentModel.scale.set(0.45);
+	currentModel.scale.set(0.9);
 	currentModel.interactive = true;
 	currentModel.anchor.set(0.5, 0.5);
 	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 1.1);

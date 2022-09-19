@@ -17,7 +17,7 @@ var motion ={
     ],
 }
 // 1, Live2Dモデルへのパスを指定する
-const modelUrl = "/static/zunkoA/Zunko_MODEL_FREE_TypeA.model.json";
+const modelUrl = "/static/Hiyori/Hiyori.model3.json";
 const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
 
@@ -38,7 +38,7 @@ let currentModel, facemesh;
 	currentModel.scale.set(0.9);
 	currentModel.interactive = true;
 	currentModel.anchor.set(0.5, 0.5);
-	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 0.45);
+	currentModel.position.set(window.innerWidth * 0.75, window.innerHeight *1.7);
     console.log(currentModel.internalModel.coreModel);
 	// 4, Live2Dモデルをドラッグ可能にする
 
@@ -54,6 +54,7 @@ let currentModel, facemesh;
 		const coreModel = currentModel.internalModel.coreModel;
 		console.log(currentModel.internalModel.motionManager);
 		console.log(currentModel.internalModel.motionManager.update)
+		console.log(currentModel.internalModel.motionManager.startMotion('TapBody',0,2))
 		
 	});
 	currentModel.on("pointermove", e => {
