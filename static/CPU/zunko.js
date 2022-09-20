@@ -10,6 +10,9 @@ var discLayer;
 var canMoveLayer;
 var scoreLavel;
 var pictures = []
+const sound = new Howl({
+  src: ['/static/image/PC-Keyboard01-Enter2.mp3']
+});
 var gameover =false;
 var turn;
 var discs;
@@ -33,6 +36,7 @@ function gameStart(){
   join_room();
 }
 function clickedSquare(row,column){
+  sound.play();
   socket.emit('clickedSquare',row,column);
 }
 function drawGreenSquares(){
@@ -103,6 +107,7 @@ function drawDiscs(affectedDiscs){
 }
 //PRINT RETURN TABLE
 socket.on('ret_table',(table,room_name,turn,affectedDiscs,white_num,black_num) => {
+  sound.play();
   document.getElementById('bp2').innerHTML = black_num;
   document.getElementById('wp2').innerHTML = white_num;
   discs=table
@@ -119,12 +124,15 @@ socket.on('result',(white_point,black_point)=>{
   result.style.display = "block"
   document.getElementById('bp').innerHTML = black_point;
   document.getElementById('wp').innerHTML = white_point;
-  if(bp > wp){
+  if(black_point > white_point){
     document.getElementById("winlose").innerHTML = "WIN!"
-    document.getElementById("winlose").style.Color = "yellow"
+    document.getElementById("winlose").style.color = "yellow"
+  }else if(black_point == white_point){
+    document.getElementById("winlose").innerHTML = "DROW"
+    document.getElementById("winlose").style.color = "green"
   }else{
     document.getElementById("winlose").innerHTML = "LOSE"
-    document.getElementById("winlose").style.Color = "blue"
+    document.getElementById("winlose").style.color = "blue"
   }
 })
 window.onload = function() {

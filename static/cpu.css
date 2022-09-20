@@ -1,6 +1,6 @@
 body{
     background-image: url("/static/image/top.gif");
-
+    cursor:url("/static/image/mokumoku2.gif"), auto;
 }
 html,body{
     overflow: hidden;
@@ -27,7 +27,7 @@ html,body{
 }
 .cpu_name {
     color:white;
-    font-size:30px;
+    font-size:40px;
     text-align: center;
     margin:0;
 }

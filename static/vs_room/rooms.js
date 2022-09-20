@@ -5,7 +5,7 @@ socket.emit('return_rooms');
 socket.on('ret_rooms',(rooms) => {
     Object.keys(rooms).forEach(function(key) {
         var room = this[key];
-        if(room.mode == "multi"){
+        if(room.mode == "multi" && room.alive == true){
         console.log(key, room);
         var a = document.createElement('a');
         var p = document.createElement('p');

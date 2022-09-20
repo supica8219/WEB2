@@ -1,9 +1,13 @@
 *{
     margin:0;
     padding:0;
+
   }
   body{
     overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('/static/image/yoru.jpg');
   }
   #blackBackground{
     position:absolute;
