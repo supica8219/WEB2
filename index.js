@@ -96,7 +96,7 @@ io.on('connection', function(socket) {
     io.to(socket.id).emit('ret_table2',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,{},2,2);
   });
   socket.on('admin2',(role)=>{
-    var room_name = users[socket.id].room;
+    var room_name = users[socket.id].room;if(room_name=="")return;
     if(role=="black"&& rooms[room_name].blackID == "" && rooms[room_name].whiteID != socket.id){
       rooms[room_name].blackID = socket.id;
       users[socket.id].role = "black";
@@ -188,8 +188,13 @@ io.on('connection', function(socket) {
   //RESTAERT
   socket.on('new_game',()=>{
     var room_name = users[socket.id].room;
+    io.to(room_name).emit('restart');
+    sleep(1000).then( () => {
     rooms[room_name] = new room(room_name);
-    rooms[create_name].mode = 'multi';
+    rooms[room_name].mode = 'multi';
+    console.log("---")
+    io.to(room_name).emit('ret_table2',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,{},2,2);
+    });
   })
   /*
   

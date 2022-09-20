@@ -142,6 +142,10 @@ socket.on('emotion',(number)=>{
   console.log('return'+number);
   app.stage.children[1].internalModel.motionManager.startMotion('TapBody',number,2)
 })
+socket.on('restart',()=>{
+  console.log('restart')
+  location.reload();
+})
 socket.on('result',(white_point,black_point)=>{
   var result = document.getElementById('result')
   result.style.display = "block"
@@ -176,6 +180,9 @@ socket.on('result',(white_point,black_point)=>{
 function send_emotion(number){
   console.log("send"+number);
   socket.emit('send_emotion',number);
+}
+function new_game(){
+  socket.emit('new_game');
 }
 function getParam(name, url) {
     if (!url) url = window.location.href;
