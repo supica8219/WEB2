@@ -26,6 +26,7 @@ const room = class {
     this.blackID = "";
     this.whiteID = "";
     this.turn = 1;
+    this.alive = true;
     this.users = [],
     this.mode = "",
     this.table = [
@@ -155,6 +156,7 @@ io.on('connection', function(socket) {
       rooms[room_name].table[row][column] = turn;
       if(!canMove(1,room_name) && !canMove(2,room_name)){
         io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
+        rooms[room_name].alive = false;
         console.log("ゲーム終了");
       }
       if(turn==1 && canMove(2,room_name)){
@@ -183,6 +185,12 @@ io.on('connection', function(socket) {
       io.to(rooms[room_name].blackID).emit('emotion',number);
     }
   });
+  //RESTAERT
+  socket.on('new_game',()=>{
+    var room_name = users[socket.id].room;
+    rooms[room_name] = new room(room_name);
+    rooms[create_name].mode = 'multi';
+  })
   /*
   
   ー－－－－－－－－－－CPU対戦ー－－－－－－－－－－－－
@@ -263,6 +271,7 @@ io.on('connection', function(socket) {
       }
     }
   });
+
   //DISCONNECTED
   socket.on('disconnect', () => {
     if(users[socket.id].room!=""){
