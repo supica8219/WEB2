@@ -1,37 +1,46 @@
+/*-----------------------------------------------------------
+全て
+-------------------------------------------------------------*/
+*{margin:0;}
 body{
-    overflow: hidden;
     background-color: rgb(78, 176, 36);
     background-image:
       radial-gradient(#a6ea75 10%, transparent 10%),
       radial-gradient(#a6ea75 10%, transparent 10%);
     background-size: 40px 40px;
     background-position: 0 0, 20px 20px;
-    cursor:url("image/mokumoku2.gif"), auto;
 }
 #body2{
+    position:absolute;
+    top:0;left:0;
     width:100vw;
-    height:100vh;
+    height:100vh;z-index: -1;
     background-image: url("/static/image/PIN.png");
     background-size: cover;
 }
+/*-----------------------------------------------------------
+携帯
+-------------------------------------------------------------*/
+@media screen and (max-width:1023px) { 
 .box {
-    width:40vw;
-    height:20vh;
-    margin:1vw;
+    display:block;
+    width:80vw;
+    height:15vh;
+    margin-top:1vh;
     border-radius:5px;
     text-decoration: none;
 }
 .box p {
-    font-size:50px;
-    line-height:20vh;
+    font-size:40px;
+    line-height:15vh;
     text-align: center;
     font-weight:bolder;
     color:black;
     margin:0;
 }
 .box span {
-    font-size:45px;
-    line-height:20vh;
+    font-size:35px;
+    line-height:15vh;
     text-align: center;
     font-weight:bolder;
     color:black;
@@ -39,21 +48,88 @@ body{
 }
 .box-wrapper {
     position:absolute;
-    bottom:0;left:5vw;
-    display:flex;
-    align-items: center;
-    justify-content: center;
+    top:50vh;left:10vw;
+    z-index:1;
 }
 .header {
     position:absolute;
-    top: 6vh;left:6.5vw;
-    width:70vw;
-    font-size:35px;
+    top: 0vh;left:0vw;
+    width:100vw;
+    font-size:25px;
+    text-align:center;
     border-bottom: 7px solid rgb(255, 255, 255);
 
 }
+.robby{
+    background-color:rgb(255, 255, 255);
+    border:10px solid rgb(216, 216, 216);
+}
+.cpu{
+    background-color:rgb(0, 255, 162);
+    border:10px solid rgb(206, 255, 255);
+}
 .header{
-    font-size:60px;
+    font-size:30px;
     color:white;
     margin:0;
+}
+}
+/*-----------------------------------------------------------
+PC
+-------------------------------------------------------------*/
+@media screen and (min-width:1024px) {
+    .box {
+        width:40vw;
+        height:20vh;
+        margin:1vw;
+        border-radius:5px;
+        text-decoration: none;
+    }
+    .box p {
+        font-size:50px;
+        line-height:20vh;
+        text-align: center;
+        font-weight:bolder;
+        color:black;
+        margin:0;
+    }
+    .box span {
+        font-size:45px;
+        line-height:20vh;
+        text-align: center;
+        font-weight:bolder;
+        color:black;
+        margin:0;
+    }
+
+    .box-wrapper {
+        position:absolute;
+        bottom:0;left:5vw;
+        display:flex;
+        z-index:1;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header {
+        position:absolute;
+        top: 6vh;left:6.5vw;
+        width:70vw;
+        font-size:35px;
+        border-bottom: 7px solid rgb(255, 255, 255);
+
+    }
+    .robby{
+        background-color:rgb(255, 255, 255);
+        border:10px solid rgb(216, 216, 216);
+    }
+    .cpu{
+        background-color:rgb(0, 255, 162);
+        border:10px solid rgb(206, 255, 255);
+    }
+    .header{
+        font-size:60px;
+        color:white;
+        margin:0;
+    }
 }
