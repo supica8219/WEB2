@@ -59,7 +59,7 @@
   </button>
   <button style="display:block;position:absolute;bottom:10px;
   right:180px;padding:10px;z-index:9999;border-radius:50%;
-  border:3px solid rgb(255, 255, 255);background-color: rgb(87, 95, 7);color:rgb(255, 255, 255);"onclick="new_game();">
+  border:3px solid rgb(255, 255, 255);background-color: rgb(87, 95, 7);color:rgb(255, 255, 255);"onclick="send_emotion(1);">
         2
  </button>
  <button style="display:block;position:absolute;bottom:10px;
@@ -77,13 +77,11 @@
   background-color: rgba(0,0,0,1);">
   黒:____<br>白:____   
   </p>
-  <div id="main_wrapper">
-    <div id="msg-box"></div>
-    <div id="table">
-      <div id="blackBackground"></div>
-     <div id="discLayer"></div>
-     <div id="canMoveLayer"></div>
-    </div>
+
+  <div id="table">
+    <table id="blackBackground"></table>
+    <table id="discLayer"></table>
+    <table id="canMoveLayer"></table>
   </div>
   <canvas id="my-live2d"></canvas>
 

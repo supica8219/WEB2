@@ -29,8 +29,6 @@ blackBackground = document.getElementById("blackBackground");
 discLayer = document.getElementById("discLayer");
 canMoveLayer = document.getElementById("canMoveLayer");
 scoreLavel = document.getElementById("scoreLavel");
-blackBackground.style.width = cellWidth*8+ (gap*9)+"px";
-blackBackground.style.height = cellWidth*8+ (gap*9)+"px";
 drawGreenSquares();
 socket.emit('join_room2',room_name,room_mode,chara,user_name);
 
@@ -44,35 +42,29 @@ function clickedSquare2(row,column){
 }
 function drawGreenSquares(){
   for(var row = 0; row < 8; row++){
+    var tr = document.createElement('tr')
     for (var column = 0; column < 8; column++){
       var greenSquare = document.createElement("div");
-      greenSquare.style.position = "absolute";
-      greenSquare.style.width = cellWidth+"px";
-      greenSquare.style.height = cellWidth+"px";
+      greenSquare.classList.add('GreenSquare');
       greenSquare.style.backgroundColor = "green";
-      greenSquare.style.left = (cellWidth+gap)*column+gap+"px";
-      greenSquare.style.top =(cellWidth+gap)*row+gap+"px";
       greenSquare.setAttribute("onclick","clickedSquare2("+row+","+column+")");
-      blackBackground.appendChild(greenSquare);
+      tr.appendChild(greenSquare);
     }
+    blackBackground.appendChild(tr);
   }
 }
 function drawDiscs(affectedDiscs){
   discLayer.innerHTML="";
   var bcount=0,wcount=0;
   for(var row = 0; row <8; row++){
+    var tr = document.createElement('tr');
     for(var column = 0; column < 8;column++){
       var value = discs[row][column];
+      var disc = document.createElement("td");
+      disc.classList.add("disc")
       if (value == 0){
         
       }else{
-        var disc = document.createElement("div");
-        disc.style.position = "absolute";
-        disc.style.width = cellWidth-4+"px";
-        disc.style.height = cellWidth-4+"px";
-        disc.style.borderRadius = "50%";
-        disc.style.left = (cellWidth+gap)*column+gap+2+"px";
-        disc.style.top = (cellWidth+gap)*row+gap+2+"px";
         for (var i = 0; i< affectedDiscs.length; i++){
          if(affectedDiscs[i].row==row && affectedDiscs[i].column==column){
             disc.classList.remove('disc_effect')
@@ -104,10 +96,13 @@ function drawDiscs(affectedDiscs){
             disc.style.backgroundImage = "radial-gradient(white 29.9%,#cccccc 70%)";
             disc.style.border = "1.5px solid #6a5acd";
         }
-        discLayer.appendChild(disc);
+        
         if(value==1){bcount++;}else{wcount++;}
+        
       }
+      tr.appendChild(disc);
     }
+    discLayer.appendChild(tr);
   } 
 }
 //PRINT RETURN TABLE

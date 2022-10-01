@@ -80,10 +80,10 @@
     height:100%;position: absolute;top:0;left:0;z-index:50;display:none;
   }
   .GreenSquare{
-    width:31.25px;height:31.25px;
+    width:43.75px;height:43.75px;
   }
   .disc{
-    width:31.25px;height:31.25px;
+    width:43.75px;height:43.75px;
     box-sizing:border-box;
   }
   #blackBackground{
@@ -105,7 +105,7 @@
   #table{
     position:absolute;
     bottom:25px;right:25px;;
-    width:250px;height:250px;
+    width:350px;height:350px;
     background-color: rgba(255, 0, 0);
     background-size:cover;
   }
