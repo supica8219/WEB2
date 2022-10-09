@@ -65,8 +65,8 @@ function drawDiscs(affectedDiscs){
         disc.style.borderRadius = "50%";
         for (var i = 0; i< affectedDiscs.length; i++){
          if(affectedDiscs[i].row==row && affectedDiscs[i].column==column){
-            disc.classList.remove('disc_effect')
-            disc.classList.add('disc_effect')
+            //disc.classList.remove('disc_effect')
+            //disc.classList.add('disc_effect')
          }
         }
         disc.setAttribute("onclick","clickedSquare("+row+","+column+")");

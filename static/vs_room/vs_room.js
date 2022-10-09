@@ -44,7 +44,7 @@ function drawGreenSquares(){
   for(var row = 0; row < 8; row++){
     var tr = document.createElement('tr')
     for (var column = 0; column < 8; column++){
-      var greenSquare = document.createElement("div");
+      var greenSquare = document.createElement("td");
       greenSquare.classList.add('GreenSquare');
       greenSquare.style.backgroundColor = "green";
       greenSquare.setAttribute("onclick","clickedSquare2("+row+","+column+")");
@@ -61,14 +61,17 @@ function drawDiscs(affectedDiscs){
     for(var column = 0; column < 8;column++){
       var value = discs[row][column];
       var disc = document.createElement("td");
+      disc.style.borderRadius = "50%";
       disc.classList.add("disc")
       if (value == 0){
         
       }else{
         for (var i = 0; i< affectedDiscs.length; i++){
          if(affectedDiscs[i].row==row && affectedDiscs[i].column==column){
+          if(screen.width >1000){
             disc.classList.remove('disc_effect')
             disc.classList.add('disc_effect')
+          }
          }
         }
         disc.setAttribute("onclick","clickedSquare2("+row+","+column+")");

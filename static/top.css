@@ -17,16 +17,20 @@ body{
     height:100vh;z-index: -1;
     background-image: url("/static/image/PIN.png");
     background-size: cover;
+    background-repeat: no-repeat;
 }
 /*-----------------------------------------------------------
 携帯
 -------------------------------------------------------------*/
-@media screen and (max-width:1023px) { 
+@media screen and (max-width:1023px) {
+#body2{
+    background-position: center;
+} 
 .box {
     display:block;
     width:80vw;
     height:15vh;
-    margin-top:1vh;
+    margin-top:2vh;
     border-radius:5px;
     text-decoration: none;
 }
@@ -48,7 +52,7 @@ body{
 }
 .box-wrapper {
     position:absolute;
-    top:50vh;left:10vw;
+    top:40vh;left:10vw;
     z-index:1;
 }
 .header {

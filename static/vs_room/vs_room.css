@@ -5,7 +5,9 @@
   margin:0;
   padding:0; 
 }
-
+body{
+  background-color: #1d7fde;
+}
 .disc_effect {
   animation: d_effect .86s ease;
 }
@@ -75,6 +77,17 @@
 携帯 1023px以下
 -------------------------------------------------------------*/
 @media screen and (max-width:1023px) { 
+  #button-wrapper{
+    display:flex;
+    position:absolute;
+    top:100px;left:0px;
+    position:absolute;
+  }
+  #rooms{
+    display:block;position:absolute;top:10px;
+  left:10px;;padding:3px;z-index:9999;border-radius:50%;
+  border:3px solid white;background-color: rgba(0,0,0,0.4);
+  }
   #result{
     background-color: rgba(0,0,0,0.7);width:100%;
     height:100%;position: absolute;top:0;left:0;z-index:50;display:none;
@@ -104,7 +117,7 @@
   }
   #table{
     position:absolute;
-    bottom:25px;right:25px;;
+    bottom:25px;right:25px;
     width:350px;height:350px;
     background-color: rgba(255, 0, 0);
     background-size:cover;
@@ -114,6 +127,16 @@
 PC 1024px以上
 -------------------------------------------------------------*/
 @media screen and (min-width:1024px) {
+  #button-wrapper{
+    position:absolute;
+    top:50px;left:0px;
+    position:absolute;
+  }
+  #rooms{
+    display:block;position:absolute;bottom:10px;
+  left:10px;padding:10px;z-index:9999;border-radius:50%;
+  border:3px solid white;background-color: rgba(0,0,0,0.4);
+  }
   #result{
     background-color: rgba(0,0,0,0.7);width:50%;
     height:100%;position: absolute;top:0;left:0;z-index:50;display:none;
