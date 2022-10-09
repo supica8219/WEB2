@@ -1,6 +1,7 @@
 
 function SetURL(){
-    var chara = document.form.chara;
+    var chara = document.form;
+    console.log(chara)
     for (let i = 0; i< chara.length; i++) {
         if (chara[i].checked) {
             var character = chara[i].value;
