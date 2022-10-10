@@ -35,12 +35,19 @@ function dododo(URL){
 		});
 
 		// 3, Live2Dモデルをロードする
+		if(URL == "/static/Rice/Rice.model3.json"){
 		currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-		currentModel.scale.set(0.7);
+		currentModel.scale.set(0.8);
 		currentModel.interactive = true;
-		currentModel.anchor.set(0.5, 0.5);
-		currentModel.position.set(window.innerWidth * 0.75, window.innerHeight * 1.7);
-		console.log(currentModel.internalModel.coreModel);
+		currentModel.anchor.set(0.6, 0.5);
+		currentModel.position.set(window.innerWidth * 0.5, window.innerHeight * 1.0);
+		}else if(URL == "/static/Hiyori/Hiyori.model3.json"){
+			currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
+			currentModel.scale.set(0.7);
+			currentModel.interactive = true;
+			currentModel.anchor.set(0.5, 0.5);
+			currentModel.position.set(window.innerWidth * 0.75, window.innerHeight * 1.45);
+		}
 		// 4, Live2Dモデルをドラッグ可能にする
 		// 4, Live2Dモデルをドラッグ可能にする
 		currentModel.on("pointerdown", e => {

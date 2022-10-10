@@ -17,7 +17,7 @@ var motion ={
     ],
 }
 // 1, Live2Dモデルへのパスを指定する
-const modelUrl = "/static/example1/example1.model3.json";
+const modelUrl = "/static/Hiyori/Hiyori.model3.json";
 const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
 var abc= "bbb";
