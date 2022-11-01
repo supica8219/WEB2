@@ -35,3 +35,6 @@ function create_room(){
     var create_name = document.getElementById('create_name').value;
     socket.emit('create_room',create_name);
 }
+document.getElementById("make_text").addEventListener('onclick',()=>{
+    console.log("a")
+});

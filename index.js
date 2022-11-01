@@ -1,5 +1,6 @@
 'use strict';
-//IMPORT RIBLALY
+
+// ライブラリインポート
 const express = require('express');
 const http = require('http');
 const path = require('path');
@@ -9,7 +10,7 @@ const socketIO = require('socket.io');
 const app = express();
 const server = http.Server(app);
 const io = socketIO(server);
-//const sharp = require('sharp')
+
 const value_table = [
   [45,-11,4,-1,-1,4,-11,45],
   [-11,-16,-1,-3,-3,2,-16,-11],
@@ -27,6 +28,7 @@ const room = class {
     this.whiteID = "";
     this.turn = 1;
     this.alive = true;
+    this.level = 1;
     this.users = [],
     this.mode = "",
     this.table = [
@@ -50,25 +52,29 @@ const user = class {
     this.chara = "";
   }
 }
-//ROOM LIST
+//　ルーム・ユーザーリスト定義
 var rooms = {}
-//USER LIST
 var users = {}
-//EVENTLISTENER
+//ルーム作成
 rooms['room1'] = new room('room1');
 rooms['room1'].mode = 'multi';
 
+/*
+  ソケットコネクション開始
+*/
 io.on('connection', function(socket) {
+  // ユーザー定義
   users[socket.id] = new user(socket.id);
-  console.log("connected",socket.id);
   /*---------------------------------------------------- 
   
   ー－－－－－－－－－－オンライン対戦ー－－－－－－－－－－－－
 
  ---------------------------------------------------------*/
+ // ルーム一覧返却
  socket.on("return_rooms",()=>{
    io.to(socket.id).emit("ret_rooms",rooms);
  })
+ // ルーム作成
  socket.on("create_room",(create_name)=>{
   rooms[create_name] = new room(create_name);
   rooms[create_name].mode = 'multi';
@@ -135,7 +141,6 @@ io.on('connection', function(socket) {
       var black_chara = ""
       }
       io.to(room_name).emit('ret_role',white_user,black_user,white_chara,black_chara);
-      console.log(black_chara+"2")
     }
   });
   //SEND ACTION---------------------------------------------------------
@@ -196,15 +201,14 @@ io.on('connection', function(socket) {
     io.to(room_name).emit('ret_table2',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,{},2,2);
     });
   })
-  /*
+  /*ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   
   ー－－－－－－－－－－CPU対戦ー－－－－－－－－－－－－
 
-  */
+  ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー*/
   //JOIN ROOM
   socket.on("join_room", function(room_name,room_mode){  
     for(let key of socket.rooms){
-      console.log(socket.rooms)
       if(socket.id != key){
         socket.leave(key)
       }
@@ -217,8 +221,8 @@ io.on('connection', function(socket) {
       rooms[room_name].bot = true;
     }
     rooms[room_name].users.push(socket.id);
-    io.to(room_name).emit('ret_table',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,[],
-    ret_white_num(room_name),ret_black_num(room_name));
+    var table = rooms[room_name].table
+    io.to(room_name).emit('ret_table',table,room_name,rooms[room_name].turn,ret_count(table,2),ret_count(table,1));
   })
   socket.on('admin',(role)=>{
     var room_name = users[socket.id].room;
@@ -246,31 +250,30 @@ io.on('connection', function(socket) {
     var room_name = users[socket.id].room;
     var turn = rooms[room_name].turn;
     var role = users[socket.id].role;
-    if(!rooms.hasOwnProperty(room_name)){console.log("NOROOM");return;}
+    var table = rooms[room_name].table;
+    if(!rooms.hasOwnProperty(room_name)){return;}
     //ROLE REFUSE
     if(role=="black"||role=="white"){}else{return;}
     if(role=="black"&&turn==2){return;}
     if(role=="white"&&turn==1){return;}
-    if(canClickSpot(row,column,room_name,turn) == true){
-      var affectedDiscs = getAffectedDiscs(row,column,room_name,turn);
-      flipDiscs(affectedDiscs,room_name);
-      rooms[room_name].table[row][column] = turn;
-      if(!canMove(1,room_name) && !canMove(2,room_name)){
-        io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
+
+    if(canClickSpot(row,column,table,turn) == true){
+      var affectedDiscs = getAffectedDiscs(row,column,table,turn);
+      flipDiscs(affectedDiscs,table);
+      table[row][column] = turn;
+      if(!canMove(1,table) && !canMove(2,table)){
+        io.to(room_name).emit('result',ret_count(table,2),ret_count(table,1))
         console.log("ゲーム終了");
       }
-      if(turn==1 && canMove(2,room_name)){
+      if(turn==1 && canMove(2,table)){
         rooms[room_name].turn=2;
       }
-      if(turn==2 && canMove(1,room_name)){
+      if(turn==2 && canMove(1,table)){
         rooms[room_name].turn=1;
       }
-      var TABLE = retCanMoveTable(rooms[room_name].turn,room_name);
-      TABLE[row][column] = turn * 100;
-      io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs,
-      ret_white_num(room_name),ret_black_num(room_name));
+      io.to(room_name).emit('ret_table',table,room_name,rooms[room_name].turn,ret_count(table,2),ret_count(table,1));
       if(rooms[room_name].bot==true && !((rooms[room_name].turn==1&&role=="black")||(rooms[room_name].turn==2&&role=="white"))){
-        botAction2(room_name);
+        botAction(room_name);
       }else{
         console.log(rooms[room_name].bot,rooms[room_name].turn,role)
       }
@@ -295,18 +298,17 @@ io.on('connection', function(socket) {
   });
 });
 //FUNCTIONS -------------------------------------------------------------
-function canClickSpot(row,column,room_name,turn){
-  if(rooms[room_name].table[row][column] != 0){
+function canClickSpot(row,column,table,turn){
+  if(table[row][column] != 0){
     return false;
   }
-  var affectedDiscs = getAffectedDiscs(row,column,room_name,turn);
+  var affectedDiscs = getAffectedDiscs(row,column,table,turn);
   if (affectedDiscs.length == 0) return false;
   else return true;
 }
 
-function getAffectedDiscs(row,column,room_name,turn){
+function getAffectedDiscs(row,column,table,turn){
   var affectedDiscs = [];
-  // all
   for(var pi=0;pi<Math.PI*2;pi+=Math.PI/4){
     var dx=Math.round(Math.cos(pi));
     var dy=Math.round(Math.sin(pi));
@@ -316,7 +318,7 @@ function getAffectedDiscs(row,column,room_name,turn){
     rowIterator += dx;
     columnIterator += dy;
     while (rowIterator <= 7 && rowIterator >= 0 && columnIterator <= 7 && columnIterator >= 0){
-      var valueAtSpot = rooms[room_name].table[rowIterator][columnIterator];
+      var valueAtSpot = table[rowIterator][columnIterator];
       if(valueAtSpot == 0 || valueAtSpot == turn){
         if(valueAtSpot == turn){
           affectedDiscs = affectedDiscs.concat(couldBeAffected);
@@ -332,132 +334,89 @@ function getAffectedDiscs(row,column,room_name,turn){
   }
   return affectedDiscs;
 }
-function flipDiscs(affectedDiscs,room_name){
+function flipDiscs(affectedDiscs,table){
   for (var i = 0; i< affectedDiscs.length; i++){
     var spot = affectedDiscs[i];
-    if (rooms[room_name].table[spot.row][spot.column] == 1){
-      rooms[room_name].table[spot.row][spot.column] = 2;
+    if (table[spot.row][spot.column] == 1){
+      table[spot.row][spot.column] = 2;
     }else {
-      rooms[room_name].table[spot.row][spot.column] = 1;
+      table[spot.row][spot.column] = 1;
     }
   }
 }
 
-function canMove(id,room_name){
+function canMove(turn,table){
   for(var i=0;i<8;i++){
     for(var j=0;j<8;j++){
-      if(canClickSpot(i,j,room_name,id)){
+      if(canClickSpot(i,j,table,turn)){
         return true;}
     }
   }
   return false;
 }
-function retCanMoveTable(id,room_name){
-  var tmp_table = new Array(8);
-  for(let i = 0;i<8;i++){tmp_table[i] = new Array(8).fill(0);}
-  for(let i = 0;i<8;i++){for(let j = 0;j<8;j++){tmp_table[i][j]=rooms[room_name].table[i][j];}}
-  var couldBeAffected=[]
-  for(var i=0;i<8;i++){
-    for(var j=0;j<8;j++){
-      if(canClickSpot(i,j,room_name,id)){   
-        couldBeAffected.push({row:i,column:j});
-      }
-    }
-  }
-  for (var i = 0; i< couldBeAffected.length; i++){
-    var spot = couldBeAffected[i];
-    if(id==1)
-      tmp_table[spot.row][spot.column]=11
-    if(id==2)
-      tmp_table[spot.row][spot.column]=22
-  }
-  return tmp_table;
-}
 
-function botAction2(room_name){
+function ret_cell(table,row,column,value,depth,turn){
+  if(depth == 0){
+    return [row,column,value];
+  };
+  //ひっくり返してターン変える
+  var r_value = -999,r_row,r_column;
+  var tmp_row,tmp_column,tmp_value;
+  for(var i=0;i<8;i++)
+  for(var j=0;j<8;j++)
+  if(canClickSpot(i,j,table,turn) == true){
+    var tmp_table = JSON.parse(JSON.stringify(table))
+    var affectedDiscs = getAffectedDiscs(i,j,tmp_table,turn);flipDiscs(affectedDiscs,tmp_table);tmp_table[row][column]=turn;
+    [tmp_row,tmp_column,tmp_value] = ret_cell(tmp_table,i,j,value_table[i][j],depth-1,turn==1?2:1)
+    if(r_value<tmp_value){r_row = i;r_column=j;r_value=tmp_value;}
+  }
+  
+  return [r_row,r_column,r_value];
+}
+// ハードモード
+function botAction(room_name){
+  //１秒まつ
   sleep(1000).then( () => {
     var turn = rooms[room_name].turn;
-    var value=-999;var row=-999,column=-999;
-    for(var i=0;i<8;i++)
-    for(var j=0;j<8;j++)
-    if(canClickSpot(i,j,room_name,turn) == true){
-      if(value_table[i][j]>value){
-        row=i;column=j;
-        value=value_table[i][j]
-      }
-    }
+    var table = rooms[room_name].table;
+    var row = -999,column = -999,value;
+    var level = rooms[room_name].level;
+    [row,column,value]  = ret_cell(table,0,0,-999,6,turn)
+    
+    //無ければ返却
     if(row==-999){return;}
-    var affectedDiscs = getAffectedDiscs(row,column,room_name,turn);
-    flipDiscs(affectedDiscs,room_name);
-    rooms[room_name].table[row][column] = turn;
-    if(!canMove(1,room_name) && !canMove(2,room_name)){
-      io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
-      console.log("ゲーム終了")
+    console.log(row,column,"-----")
+    var affectedDiscs = getAffectedDiscs(row,column,table,turn);
+    flipDiscs(affectedDiscs,table);
+    table[row][column] = turn;
+    //終了判定
+    if(!canMove(1,table) && !canMove(2,table)){
+      io.to(room_name).emit('result',ret_count(table,4),ret_count(table,1))
     }
-    if(turn==1 && canMove(2,room_name)){
+    if(turn==1 && canMove(2,table)){
       rooms[room_name].turn=2;
-    }else if(turn==2 && canMove(1,room_name)){
+    }else if(turn==2 && canMove(1,table)){
       rooms[room_name].turn=1;
     }else{
-      console.log("REACT");botAction2(room_name);
+      botAction3(room_name);
     }
-    var TABLE = retCanMoveTable(rooms[room_name].turn,room_name);
-    TABLE[row][column] = turn * 100;
-    io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs,
-    ret_white_num(room_name),ret_black_num(room_name));
+    io.to(room_name).emit('ret_table',table,room_name,rooms[room_name].turn,ret_count(table,2),ret_count(table,1));
     return;
   })
 }
-function botAction(room_name){
-  sleep(1000).then( () => {
-  var turn = rooms[room_name].turn;
-  for(var row=0;row<8;row++)
-  for(var column=0;column<8;column++)
-  if(canClickSpot(row,column,room_name,turn) == true){
-    var affectedDiscs = getAffectedDiscs(row,column,room_name,turn);
-    flipDiscs(affectedDiscs,room_name);
-    rooms[room_name].table[row][column] = turn;
-    if(!canMove(1,room_name) && !canMove(2,room_name)){
-      io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
-      console.log("ゲーム終了")
-    }
-    if(turn==1 && canMove(2,room_name)){
-      rooms[room_name].turn=2;
-    }else if(turn==2 && canMove(1,room_name)){
-      rooms[room_name].turn=1;
-    }else{
-      console.log("REACT");botAction(room_name);
-    }
-    var TABLE = retCanMoveTable(rooms[room_name].turn,room_name);
-    TABLE[row][column] = turn * 100;
-    io.to(room_name).emit('ret_table',TABLE,room_name,rooms[room_name].turn,affectedDiscs,
-    ret_white_num(room_name),ret_black_num(room_name));
-    return;
-  }
-  })
-}
-function ret_white_num(room_name){
+
+function ret_count(table,turn){
   var count = 0;
   for(var i=0; i<8; i++){
     for(var j=0; j<8; j++){
-      if(rooms[room_name].table[i][j] == 2){
+      if(table[i][j] == turn){
         count++;
       }
     }
   }
   return count;
 }
-function ret_black_num(room_name){
-  var count = 0;
-  for(var i=0; i<8; i++){
-    for(var j=0; j<8; j++){
-      if(rooms[room_name].table[i][j] == 1){
-        count++;
-      }
-    }
-  }
-  return count;
-}
+
 app.use('/static', express.static(__dirname + '/static'));
 //RETURN HTML FILE
 app.get('/zunko', (request, response) => {
@@ -468,12 +427,6 @@ app.get('/itako', (request, response) => {
 });
 app.get('/kiritan', (request, response) => {
   response.sendFile(path.join(__dirname, '/static/CPU/kiritan.html'))
-});
-app.get('/shinobi', (request, response) => {
-  response.sendFile(path.join(__dirname, '/static/CPU/shinobi.html'))
-});
-app.get('/metan', (request, response) => {
-  response.sendFile(path.join(__dirname, '/static/CPU/metan.html'))
 });
 app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, '/static/top.html'))

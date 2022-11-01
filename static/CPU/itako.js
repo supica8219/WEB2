@@ -50,7 +50,7 @@ function drawGreenSquares(){
     blackBackground.appendChild(tr);
   }
 }
-function drawDiscs(affectedDiscs){
+function drawDiscs(){
   discLayer.innerHTML="";
   var bcount=0,wcount=0;
   for(var row = 0; row <8; row++){
@@ -60,15 +60,9 @@ function drawDiscs(affectedDiscs){
       var disc = document.createElement("td");
       disc.classList.add("disc")
       if (value == 0){
-        
+        disc.setAttribute("onclick","clickedSquare("+row+","+column+")");
       }else{
         disc.style.borderRadius = "50%";
-        for (var i = 0; i< affectedDiscs.length; i++){
-         if(affectedDiscs[i].row==row && affectedDiscs[i].column==column){
-            //disc.classList.remove('disc_effect')
-            //disc.classList.add('disc_effect')
-         }
-        }
         disc.setAttribute("onclick","clickedSquare("+row+","+column+")");
         if (value == 1){
           disc.style.backgroundImage = "radial-gradient(#333333 30%, black 70%)";   
@@ -78,18 +72,6 @@ function drawDiscs(affectedDiscs){
           disc.style.backgroundImage = "radial-gradient(white 30%,#cccccc 70%)";
           disc.style.opacity = 1.0         
         }
-        if(value == 11){
-          disc.style.backgroundColor = "rgba(255,255,255,0.3)";
-          disc.style.borderRadius ="0px";
-        }
-        if(value == 22){
-        } 
-        if(value == 100){
-            disc.style.backgroundImage = "radial-gradient(#333333 29.9%, black 70%)";
-        }
-        if(value == 200){
-            disc.style.backgroundImage = "radial-gradient(white 29.9%,#cccccc 70%)";
-        }
         if(value==1){bcount++;}else{wcount++;}
       }
       tr.appendChild(disc);
@@ -98,14 +80,14 @@ function drawDiscs(affectedDiscs){
   } 
 }
 //PRINT RETURN TABLE
-socket.on('ret_table',(table,room_name,turn,affectedDiscs,white_num,black_num) => {
+socket.on('ret_table',(table,room_name,turn,white_num,black_num) => {
   sound.play();
   document.getElementById('bp2').innerHTML = black_num;
   document.getElementById('wp2').innerHTML = white_num;
   discs=table
   console.log(table)
   console.log(room_name)
-  drawDiscs(affectedDiscs)
+  drawDiscs()
 });
 
 socket.on('connect',()=>{

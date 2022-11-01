@@ -1,0 +1,10 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Kiritan_MODEL_ver.1.0.moc3",
+		"Textures": [
+			"Kiritan_MODEL_ver.1.0.2048/texture_00.png"
+		],
+		"DisplayInfo": "Kiritan_MODEL_ver.1.0.cdi3.json"
+	}
+}

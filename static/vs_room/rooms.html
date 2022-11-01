@@ -17,11 +17,13 @@
           keyboard_double_arrow_left
         </span>
     </a>
-    <div id="rooms">
+    <div id="wrapper">
+        <div id="rooms">
+        </div>
+        <br>
+        <p id="make_text">ルームを作成する</p>
+        <p id="create">ルーム名<br><input type="text" id="create_name"><br><button onclick="create_room();">作成</button></p>
     </div>
-    <br>
-    <p>ルームを作成する</p>
-    <p>ルーム名<br><input type="text" id="create_name"><br><button onclick="create_room();">作成</button></p>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/static/vs_room/rooms.js"></script>
 </body>

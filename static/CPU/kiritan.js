@@ -11,12 +11,12 @@ var canMoveLayer;
 var scoreLavel;
 var pictures = []
 var gameover =false;
-const sound = new Howl({
-  src: ['/static/image/PC-Keyboard01-Enter2.mp3']
-});
 var turn;
 var discs;
 var table = document.getElementById("table")
+const sound = new Howl({
+  src: ['/static/image/PC-Keyboard01-Enter2.mp3']
+});
 //JOIN_ROOM_FORM
 function join_room(){
   var role = "black";
@@ -30,8 +30,6 @@ function gameStart(){
   discLayer = document.getElementById("discLayer");
   canMoveLayer = document.getElementById("canMoveLayer");
   scoreLavel = document.getElementById("scoreLavel");
-  blackBackground.style.width = cellWidth*8+ (gap*9)+"px";
-  blackBackground.style.height = cellWidth*8+ (gap*9)+"px";
   drawGreenSquares();
   join_room();
 }
@@ -39,42 +37,32 @@ function clickedSquare(row,column){
   socket.emit('clickedSquare',row,column);
 }
 function drawGreenSquares(){
+  blackBackground.innerHTML=""
   for(var row = 0; row < 8; row++){
+    var tr = document.createElement('tr')
     for (var column = 0; column < 8; column++){
-      var greenSquare = document.createElement("div");
-      greenSquare.style.position = "absolute";
-      greenSquare.style.width = cellWidth+"px";
-      greenSquare.style.height = cellWidth+"px";
+      var greenSquare = document.createElement("td");
+      greenSquare.classList.add('GreenSquare');
       greenSquare.style.backgroundColor = "green";
-      greenSquare.style.left = (cellWidth+gap)*column+gap+"px";
-      greenSquare.style.top =(cellWidth+gap)*row+gap+"px";
       greenSquare.setAttribute("onclick","clickedSquare("+row+","+column+")");
-      blackBackground.appendChild(greenSquare);
+      tr.appendChild(greenSquare);
     }
+    blackBackground.appendChild(tr);
   }
 }
-function drawDiscs(affectedDiscs){
+function drawDiscs(){
   discLayer.innerHTML="";
   var bcount=0,wcount=0;
   for(var row = 0; row <8; row++){
+    var tr = document.createElement('tr');
     for(var column = 0; column < 8;column++){
       var value = discs[row][column];
+      var disc = document.createElement("td");
+      disc.classList.add("disc")
       if (value == 0){
-        
+        disc.setAttribute("onclick","clickedSquare("+row+","+column+")");
       }else{
-        var disc = document.createElement("div");
-        disc.style.position = "absolute";
-        disc.style.width = cellWidth-4+"px";
-        disc.style.height = cellWidth-4+"px";
         disc.style.borderRadius = "50%";
-        disc.style.left = (cellWidth+gap)*column+gap+2+"px";
-        disc.style.top = (cellWidth+gap)*row+gap+2+"px";
-        for (var i = 0; i< affectedDiscs.length; i++){
-         if(affectedDiscs[i].row==row && affectedDiscs[i].column==column){
-            disc.classList.remove('disc_effect')
-            disc.classList.add('disc_effect')
-         }
-        }
         disc.setAttribute("onclick","clickedSquare("+row+","+column+")");
         if (value == 1){
           disc.style.backgroundImage = "radial-gradient(#333333 30%, black 70%)";   
@@ -84,35 +72,22 @@ function drawDiscs(affectedDiscs){
           disc.style.backgroundImage = "radial-gradient(white 30%,#cccccc 70%)";
           disc.style.opacity = 1.0         
         }
-        if(value == 11){
-          disc.style.backgroundColor = "rgba(255,255,255,0.3)";
-          disc.style.borderRadius ="0px";
-        }
-        if(value == 22){
-        } 
-        if(value == 100){
-            disc.style.backgroundImage = "radial-gradient(#333333 29.9%, black 70%)";
-            disc.style.border = "1px solid #000022";
-        }
-        if(value == 200){
-            disc.style.backgroundImage = "radial-gradient(white 29.9%,#cccccc 70%)";
-            disc.style.border = "1.5px solid #6a5acd";
-        }
-        discLayer.appendChild(disc);
         if(value==1){bcount++;}else{wcount++;}
       }
+      tr.appendChild(disc);
     }
+    discLayer.appendChild(tr);
   } 
 }
 //PRINT RETURN TABLE
-socket.on('ret_table',(table,room_name,turn,affectedDiscs,white_num,black_num) => {
+socket.on('ret_table',(table,room_name,turn,white_num,black_num) => {
   sound.play();
   document.getElementById('bp2').innerHTML = black_num;
   document.getElementById('wp2').innerHTML = white_num;
   discs=table
   console.log(table)
   console.log(room_name)
-  drawDiscs(affectedDiscs)
+  drawDiscs()
 });
 
 socket.on('connect',()=>{
@@ -134,8 +109,3 @@ socket.on('result',(white_point,black_point)=>{
     document.getElementById("winlose").style.color = "blue"
   }
 })
-window.onload = function() {
-  const spinner = document.getElementById('loader1');
-  spinner.src="/static/image/aida2.png";
-  spinner.classList.add("loaded1");
-}

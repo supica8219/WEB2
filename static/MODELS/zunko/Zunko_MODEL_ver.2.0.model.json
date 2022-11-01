@@ -1,9 +1,0 @@
-{
-	"type": "Live2D Model Setting",
-	"name": "Zunko_MODEL_ver.2.0",
-	"model": "Zunko_MODEL_ver.2.0.moc",
-	"textures": [
-		"Zunko_MODEL_ver.2.0.2048/texture_00.png",
-		"Zunko_MODEL_ver.2.0.2048/texture_01.png"
-	]
-}
