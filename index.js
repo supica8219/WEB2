@@ -19,7 +19,8 @@ const value_table = [
   [-1,-3,-1,0,0,-1,-3,-1],
   [4,-1,2,-1,-1,2,-1,4],
   [-11,-16,-1,-3,-3,2,-16,-11],
-  [45,-11,4,-1,-1,4,-11,45],];
+  [45,-11,4,-1,-1,4,-11,45]
+];
 
 const room = class {
   constructor(room_name) { /* コンストラクタ */
@@ -52,16 +53,16 @@ const user = class {
     this.chara = "";
   }
 }
+
 //　ルーム・ユーザーリスト定義
 var rooms = {}
 var users = {}
+
 //ルーム作成
 rooms['room1'] = new room('room1');
 rooms['room1'].mode = 'multi';
 
-/*
-  ソケットコネクション開始
-*/
+/*ソケットコネクション開始*/
 io.on('connection', function(socket) {
   // ユーザー定義
   users[socket.id] = new user(socket.id);
@@ -81,7 +82,7 @@ io.on('connection', function(socket) {
   io.to(socket.id).emit("ret_create_rooms");
  })
   //CHECK CONNECTED2
-  socket.on("join_room2",(room_name,room_mode,chara,name)=>{
+  socket.on("join_multi_room",(room_name,room_mode,chara,name)=>{
     for(let key of socket.rooms){
       if(socket.id != key){
         socket.leave(key)
@@ -91,7 +92,6 @@ io.on('connection', function(socket) {
     users[socket.id].room = room_name;
     users[socket.id].chara = chara;
     users[socket.id].name = name;
-    var room_name = users[socket.id].room;
     if( rooms[room_name] == undefined ){
       rooms[room_name] = new room(room_name);
       rooms[room_name].mode = room_mode;
@@ -99,7 +99,7 @@ io.on('connection', function(socket) {
     if(users.hasOwnProperty(rooms[room_name].whiteID)){var white_user = users[rooms[room_name].whiteID].name;var white_chara = users[rooms[room_name].whiteID].chara;}else {var white_user = "-----";var white_chara = ""}
     if(users.hasOwnProperty(rooms[room_name].blackID)){var black_user = users[rooms[room_name].blackID].name;var black_chara = users[rooms[room_name].blackID].chara;}else {var black_user = "-----";var black_chara = ""}
     io.to(room_name).emit('ret_role',white_user,black_user,white_chara,black_chara);
-    io.to(socket.id).emit('ret_table2',retCanMoveTable(rooms[room_name].turn,room_name),room_name,rooms[room_name].turn,{},2,2);
+    io.to(socket.id).emit('ret_table2',rooms[room_name].table,room_name,rooms[room_name].turn,2,2);
   });
   socket.on('admin2',(role)=>{
     var room_name = users[socket.id].room;if(room_name=="")return;
@@ -148,32 +148,29 @@ io.on('connection', function(socket) {
     var room_name = users[socket.id].room;
     var turn = rooms[room_name].turn;
     var role = users[socket.id].role;
-
+    var table = rooms[room_name].table;
     if(!rooms.hasOwnProperty(room_name)){console.log("NOROOM");return;}
     //ROLE REFUSE
     if(role=="black"||role=="white"){}else{return;}
     if(role=="black"&&turn==2){return;}
     if(role=="white"&&turn==1){return;}
     
-    if(canClickSpot(row,column,room_name,turn) == true){
-      var affectedDiscs = getAffectedDiscs(row,column,room_name,turn);
-      flipDiscs(affectedDiscs,room_name);
-      rooms[room_name].table[row][column] = turn;
-      if(!canMove(1,room_name) && !canMove(2,room_name)){
-        io.to(room_name).emit('result',ret_white_num(room_name),ret_black_num(room_name))
+    if(canClickSpot(row,column,table,turn) == true){
+      var affectedDiscs = getAffectedDiscs(row,column,table,turn);
+      flipDiscs(affectedDiscs,table);
+      table[row][column] = turn;
+      if(!canMove(1,table) && !canMove(2,table)){
+        io.to(room_name).emit('result',ret_count(table,2),ret_count(table,1))
         rooms[room_name].alive = false;
         console.log("ゲーム終了");
       }
-      if(turn==1 && canMove(2,room_name)){
+      if(turn==1 && canMove(2,table)){
         rooms[room_name].turn=2;
       }
-      if(turn==2 && canMove(1,room_name)){
+      if(turn==2 && canMove(1,table)){
         rooms[room_name].turn=1;
       }
-      var TABLE = retCanMoveTable(rooms[room_name].turn,room_name);
-      TABLE[row][column] = turn * 100;
-      io.to(room_name).emit('ret_table2',TABLE,room_name,rooms[room_name].turn,affectedDiscs,
-      ret_white_num(room_name),ret_black_num(room_name));
+      io.to(room_name).emit('ret_table2',table,room_name,rooms[room_name].turn,ret_count(table,2),ret_count(table,1));
     }
   });
 
@@ -381,7 +378,7 @@ function botAction(room_name){
     var table = rooms[room_name].table;
     var row = -999,column = -999,value;
     var level = rooms[room_name].level;
-    [row,column,value]  = ret_cell(table,0,0,-999,6,turn)
+    [row,column,value]  = ret_cell(table,0,0,-999,1,turn)
     
     //無ければ返却
     if(row==-999){return;}

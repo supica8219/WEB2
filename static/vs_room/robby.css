@@ -11,8 +11,8 @@ input[type=radio]+label:before{
     content: "";
     display: inline-block;
     background-size: contain;
-    width: 140px;
-    height: 140px;
+    width: 200px;
+    height: 200px;
 }
 input[type=radio][value="ライス"]+label:before{
     background-size: cover;
@@ -93,10 +93,12 @@ PC 1024px以上
         border-radius:8px;
     }
     .box-wrapper{
-        margin:0;
-        display:flex;
+        margin:0 auto;
+        display:block;
         height:100vh;
-        background-color: rgba(4,4,4,0.4);
+        width:80vw;height:80vh;
+        text-align:center;
+        background-color: rgba(255, 255, 255, 0.7);
     }
     .cpu_name {
         color:white;
@@ -110,6 +112,11 @@ PC 1024px以上
         border-radius:8px;
         background-color: rgba(0,0,0,0.7);
         top:0;left:0;
+    }
+    #form{
+        display:flex;
+        justify-content: space-around;
+        align-items: center;
     }
 }
 

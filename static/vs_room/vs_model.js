@@ -35,13 +35,13 @@ function dododo(URL){
 		});
 
 		// 3, Live2Dモデルをロードする
-		if(URL == "/static/Rice/Rice.model3.json"){
+		if(URL == "/static/Kiritan_MODEL_ver.1.0/Kiritan_MODEL_ver.1.0.model3.json"){
 		currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
 		currentModel.scale.set(0.8);
 		currentModel.interactive = true;
 		currentModel.anchor.set(0.6, 0.5);
 		currentModel.position.set(window.innerWidth * 0.5, window.innerHeight * 1.0);
-		}else if(URL == "/static/Hiyori/Hiyori.model3.json"){
+		}else if(URL == "/static/Kiritan_MODEL_ver.1.0/Kiritan_MODEL_ver.1.0.model3.json"){
 			currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
 			currentModel.scale.set(0.7);
 			currentModel.interactive = true;

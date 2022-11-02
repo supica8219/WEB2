@@ -20,17 +20,15 @@ var room_mode = "multi";
 const sound = new Howl({
   src: ['/static/image/PC-Keyboard01-Enter2.mp3']
 });
-var charaURL = ["/static/Hiyori/Hiyori.model3.json","/static/Rice/Rice.model3.json"]
-document.getElementById('rooms').href =  
-"/rooms?chara=" + getParam('chara') + 
-"&name=" + getParam('name');
+var charaURL = ["/static/Kiritan_MODEL_ver.1.0/Kiritan_MODEL_ver.1.0.model3.json","/static/Kiritan_MODEL_ver.1.0/Kiritan_MODEL_ver.1.0.model3.json"]
+document.getElementById('rooms').href =  "/rooms?chara=" + getParam('chara') + "&name=" + getParam('name');
 
 blackBackground = document.getElementById("blackBackground");
 discLayer = document.getElementById("discLayer");
 canMoveLayer = document.getElementById("canMoveLayer");
 scoreLavel = document.getElementById("scoreLavel");
 drawGreenSquares();
-socket.emit('join_room2',room_name,room_mode,chara,user_name);
+socket.emit('join_multi_room',room_name,room_mode,chara,user_name);
 
 function admin(role){
     myrole = role;
@@ -53,7 +51,7 @@ function drawGreenSquares(){
     blackBackground.appendChild(tr);
   }
 }
-function drawDiscs(affectedDiscs){
+function drawDiscs(){
   discLayer.innerHTML="";
   var bcount=0,wcount=0;
   for(var row = 0; row <8; row++){
@@ -63,18 +61,10 @@ function drawDiscs(affectedDiscs){
       var disc = document.createElement("td");
       disc.style.borderRadius = "50%";
       disc.classList.add("disc")
+      disc.setAttribute("onclick","clickedSquare2("+row+","+column+")");
       if (value == 0){
         
       }else{
-        for (var i = 0; i< affectedDiscs.length; i++){
-         if(affectedDiscs[i].row==row && affectedDiscs[i].column==column){
-          if(screen.width >1000){
-            disc.classList.remove('disc_effect')
-            disc.classList.add('disc_effect')
-          }
-         }
-        }
-        disc.setAttribute("onclick","clickedSquare2("+row+","+column+")");
         if (value == 1){
           disc.style.backgroundImage = "radial-gradient(#333333 30%, black 70%)";   
           disc.style.opacity = 1.0
@@ -82,22 +72,6 @@ function drawDiscs(affectedDiscs){
         if(value == 2){
           disc.style.backgroundImage = "radial-gradient(white 30%,#cccccc 70%)";
           disc.style.opacity = 1.0         
-        }
-        if(value == 11){
-          disc.style.backgroundColor = "rgba(255,255,255,0.3)";
-          disc.style.borderRadius ="0px";
-        }
-        if(value == 22){
-            disc.style.backgroundColor = "rgba(255,255,255,0.3)";
-            disc.style.borderRadius ="0px";
-        } 
-        if(value == 100){
-            disc.style.backgroundImage = "radial-gradient(#333333 29.9%, black 70%)";
-            disc.style.border = "1px solid #000022";
-        }
-        if(value == 200){
-            disc.style.backgroundImage = "radial-gradient(white 29.9%,#cccccc 70%)";
-            disc.style.border = "1.5px solid #6a5acd";
         }
         
         if(value==1){bcount++;}else{wcount++;}
@@ -109,14 +83,14 @@ function drawDiscs(affectedDiscs){
   } 
 }
 //PRINT RETURN TABLE
-socket.on('ret_table2',(table,room_name,turn,affectedDiscs,white_num,black_num) => {
+socket.on('ret_table2',(table,room_name,turn,white_num,black_num) => {
   sound.play();
   document.getElementById('bp2').innerHTML = black_num;
   document.getElementById('wp2').innerHTML = white_num;
   discs=table
   console.log(table)
   console.log(room_name)
-  drawDiscs(affectedDiscs)
+  drawDiscs()
   
 });
 socket.on('ret_role',(white,black,white_chara,black_chara)=>{
@@ -137,11 +111,9 @@ socket.on('ret_role',(white,black,white_chara,black_chara)=>{
     }
 })
 socket.on('emotion',(number)=>{
-  console.log('return'+number);
   app.stage.children[1].internalModel.motionManager.startMotion('TapBody',number,2)
 })
 socket.on('restart',()=>{
-  console.log('restart')
   location.reload();
 })
 socket.on('result',(white_point,black_point)=>{
@@ -149,7 +121,6 @@ socket.on('result',(white_point,black_point)=>{
   result.style.display = "block"
   document.getElementById('bp').innerHTML = black_point;
   document.getElementById('wp').innerHTML = white_point;
-  console.log(white_point,black_point)
   if(myrole == "black"){
     if(black_point > white_point){
       document.getElementById("winlose").innerHTML = "WIN!"
