@@ -6,8 +6,9 @@
   padding:0; 
 }
 body{
-  background-image: url("/static/image/taiki.jpeg");
-  background-size: cover;
+  background-image: url("/static/image/wait.png");
+  background-repeat: no-repeat;
+  background-size: 100%
 }
 .disc_effect {
   animation: d_effect .86s ease;
@@ -170,8 +171,8 @@ PC 1024px以上
   #table{
     position:relative;
     width:700px;height:700px;
-    margin-top:30px;
-    margin-left:50px;
+    margin-top:50px;
+    margin-left:29vw;
 
   }
 }

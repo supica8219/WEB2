@@ -10,14 +10,9 @@ const {
 	Vector: { lerp },
 	Utils: { clamp }
 } = Kalidokit;
-var motion ={
-    "t0":
-    [
-        { "file":"/static/zunko/motions/motion_01_MOJIMOJI_ZUNKO.mtn","fade_out":0}
-    ],
-}
+
 // 1, Live2Dモデルへのパスを指定する
-const modelUrl = "/static/Zunko_MODEL_ver.2.0/Zunko_MODEL_ver.2.0.model3.json";
+const modelUrl = "/static/itako/itako.model3.json";
 const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
 
@@ -34,11 +29,12 @@ let currentModel, facemesh;
 	});
 
 	// 3, Live2Dモデルをロードする
+	console.log(modelUrl)
 	currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-	currentModel.scale.set(0.9);
+	currentModel.scale.set(0.6);
 	currentModel.interactive = true;
 	currentModel.anchor.set(0.5, 0.5);
-	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 1.1);
+	currentModel.position.set(window.innerWidth * 0.8, window.innerHeight * 1.2);
     console.log(currentModel.internalModel.coreModel);
 	// 4, Live2Dモデルをドラッグ可能にする
 

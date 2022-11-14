@@ -12,7 +12,7 @@ const {
 } = Kalidokit;
 
 // 1, Live2Dモデルへのパスを指定する
-const modelUrl = "/static/Itako_MODEL_Pro_ver.1.1/Itako_Pro_ver.1.1.model3.json";
+const modelUrl = "/static/kiritan/kiritan.model3.json";
 const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
 
@@ -31,10 +31,10 @@ let currentModel, facemesh;
 	// 3, Live2Dモデルをロードする
 	console.log(modelUrl)
 	currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-	currentModel.scale.set(0.6);
+	currentModel.scale.set(1.10);
 	currentModel.interactive = true;
 	currentModel.anchor.set(0.5, 0.5);
-	currentModel.position.set(window.innerWidth * 0.82, window.innerHeight * 1.1);
+	currentModel.position.set(window.innerWidth * 0.73, window.innerHeight * 1.0);
     console.log(currentModel.internalModel.coreModel);
 	// 4, Live2Dモデルをドラッグ可能にする
 

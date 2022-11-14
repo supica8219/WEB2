@@ -20,9 +20,7 @@ var room_mode = "multi";
 const sound = new Howl({
   src: ['/static/image/PC-Keyboard01-Enter2.mp3']
 });
-var charaURL = ["/static/Kiritan_MODEL_ver.1.0/Kiritan_MODEL_ver.1.0.model3.json","/static/Kiritan_MODEL_ver.1.0/Kiritan_MODEL_ver.1.0.model3.json"]
 document.getElementById('rooms').href =  "/rooms?chara=" + getParam('chara') + "&name=" + getParam('name');
-
 blackBackground = document.getElementById("blackBackground");
 discLayer = document.getElementById("discLayer");
 canMoveLayer = document.getElementById("canMoveLayer");
@@ -94,19 +92,13 @@ socket.on('ret_table2',(table,room_name,turn,white_num,black_num) => {
   
 });
 socket.on('ret_role',(white,black,white_chara,black_chara)=>{
-    document.getElementById('role').innerHTML = "黒:" + black + black_chara + "<br>" + "白:" +white + white_chara;
+    document.getElementById('role').innerHTML = "黒:" + black+ "<br>" + "白:" +white;
     if(white_chara!="" && black_chara!=""){
       if(myrole == "black"){
-        if(white_chara == "ライス")
-        dododo(charaURL[1]);
-        else if(white_chara == "ひより")
-        dododo(charaURL[0])
+        dododo(white_chara,black_chara);
       }
       if(myrole == "white"){
-        if(black_chara == "ライス")
-        dododo(charaURL[1]);
-        else if(black_chara == "ひより")
-        dododo(charaURL[0])
+        dododo(black_chara,white_chara);
       }
     }
 })
@@ -147,7 +139,7 @@ socket.on('result',(white_point,black_point)=>{
   }
 })
 function send_emotion(number){
-  console.log("send"+number);
+  app.stage.children[2].internalModel.motionManager.startMotion('TapBody',number,2)
   socket.emit('send_emotion',number);
 }
 function new_game(){

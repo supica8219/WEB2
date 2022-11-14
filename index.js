@@ -204,7 +204,7 @@ io.on('connection', function(socket) {
 
   ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー*/
   //JOIN ROOM
-  socket.on("join_room", function(room_name,room_mode){  
+  socket.on("join_room", function(room_name,room_mode,level){  
     for(let key of socket.rooms){
       if(socket.id != key){
         socket.leave(key)
@@ -215,6 +215,7 @@ io.on('connection', function(socket) {
     if( rooms[room_name] == undefined ){
       rooms[room_name] = new room(room_name);
       rooms[room_name].mode = room_mode;
+      rooms[room_name].level = level;
       rooms[room_name].bot = true;
     }
     rooms[room_name].users.push(socket.id);
@@ -287,7 +288,7 @@ io.on('connection', function(socket) {
     }
     if(users[socket.id].room!=""){
       var room_name=users[socket.id].room
-      console.log(room_name)
+      console.log(room_name+"ccc")
     if(users.hasOwnProperty(rooms[room_name].whiteID)){var white_user = users[rooms[room_name].whiteID].name;}else {var white_user = "-----"}
     if(users.hasOwnProperty(rooms[room_name].blackID)){var black_user = users[rooms[room_name].blackID].name;}else {var black_user = "-----"}
       io.to(room_name).emit('ret_role',white_user,black_user)
@@ -376,9 +377,10 @@ function botAction(room_name){
   sleep(1000).then( () => {
     var turn = rooms[room_name].turn;
     var table = rooms[room_name].table;
+    var level = rooms[room_name].level;
     var row = -999,column = -999,value;
     var level = rooms[room_name].level;
-    [row,column,value]  = ret_cell(table,0,0,-999,1,turn)
+    [row,column,value]  = ret_cell(table,0,0,-999,level,turn)
     
     //無ければ返却
     if(row==-999){return;}

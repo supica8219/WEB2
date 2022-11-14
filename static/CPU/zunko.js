@@ -22,7 +22,7 @@ function join_room(){
   var role = "black";
   var room_name = "room"+Math.random()*100;
   var bot_flag = true;
-  socket.emit('join_room',room_name,bot_flag);
+  socket.emit('join_room',room_name,bot_flag, 2);
   socket.emit('admin',role)
 }
 function gameStart(){

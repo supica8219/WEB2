@@ -2,10 +2,10 @@
 
 }
 body{
-    background-color: rgb(104, 104, 214);
+    background-image: url("/static/image/top.gif");
 }
 #wrapper{
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.7);
     width:70%;
     height:70%;
     margin:15% auto;

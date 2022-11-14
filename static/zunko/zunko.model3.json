@@ -1,0 +1,35 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Zunko_MODEL_ver.2.0.moc3",
+		"Textures": [
+			"Zunko_MODEL_ver.2.0.2048/texture_00.png"
+		],
+		"Physics": "Zunko_MODEL_ver.2.0.physics3.json",
+		"DisplayInfo": "Zunko_MODEL_ver.2.0.cdi3.json",
+		"Motions": {
+			"Idle": [
+			],
+			"TapBody": [
+				{
+					"File": "motions/motion1.motion3.json"
+				},
+				{
+					"File": "motions/motion2.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

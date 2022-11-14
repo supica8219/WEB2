@@ -1,0 +1,84 @@
+{
+	"Version": 3,
+	"Meta": {
+		"Duration": 1.7,
+		"Fps": 30.0,
+		"Loop": true,
+		"AreBeziersRestricted": false,
+		"CurveCount": 3,
+		"TotalSegmentCount": 8,
+		"TotalPointCount": 21,
+		"UserDataCount": 0,
+		"TotalUserDataSize": 0
+	},
+	"Curves": [
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_EYE_L_OPEN",
+			"Segments": [
+				0,
+				1,
+				1,
+				0.211,
+				1,
+				0.422,
+				0,
+				0.633,
+				0,
+				1,
+				0.767,
+				0,
+				0.9,
+				1,
+				1.033,
+				1,
+				0,
+				1.7,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_EYE_BALL_X",
+			"Segments": [
+				0,
+				0,
+				1,
+				0.178,
+				0,
+				0.356,
+				0.5,
+				0.533,
+				0.5,
+				1,
+				0.7,
+				0.5,
+				0.867,
+				0,
+				1.033,
+				0,
+				0,
+				1.7,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_CHEEK",
+			"Segments": [
+				0,
+				0.5,
+				1,
+				0.222,
+				0.5,
+				0.444,
+				1,
+				0.667,
+				1,
+				0,
+				1.7,
+				1
+			]
+		}
+	]
+}
