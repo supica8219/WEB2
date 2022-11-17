@@ -146,10 +146,10 @@ io.on('connection', function(socket) {
   //SEND ACTION---------------------------------------------------------
   socket.on('clickedSquare2', function(row,column){
     var room_name = users[socket.id].room;
+    if(!rooms.hasOwnProperty(room_name)){console.log("NOROOM");return;}
     var turn = rooms[room_name].turn;
     var role = users[socket.id].role;
     var table = rooms[room_name].table;
-    if(!rooms.hasOwnProperty(room_name)){console.log("NOROOM");return;}
     //ROLE REFUSE
     if(role=="black"||role=="white"){}else{return;}
     if(role=="black"&&turn==2){return;}
