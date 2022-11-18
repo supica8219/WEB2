@@ -1,0 +1,45 @@
+{
+	"Version": 3,
+	"Meta": {
+		"Duration": 2,
+		"Fps": 30.0,
+		"Loop": true,
+		"AreBeziersRestricted": false,
+		"CurveCount": 2,
+		"TotalSegmentCount": 3,
+		"TotalPointCount": 7,
+		"UserDataCount": 0,
+		"TotalUserDataSize": 0
+	},
+	"Curves": [
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_ANGLE_X",
+			"Segments": [
+				0,
+				-2,
+				1,
+				0.656,
+				-2,
+				1.311,
+				30,
+				1.967,
+				30,
+				0,
+				2,
+				30
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_EYE_R_OPEN",
+			"Segments": [
+				0,
+				0,
+				0,
+				2,
+				0
+			]
+		}
+	]
+}

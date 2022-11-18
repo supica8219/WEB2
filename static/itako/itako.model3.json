@@ -1,12 +1,38 @@
 {
 	"Version": 3,
 	"FileReferences": {
-		"Moc": "Itako_Pro_ver.1.1.moc3",
+		"Moc": "itako.moc3",
 		"Textures": [
-			"Itako_Pro_ver.1.1.8192/texture_00.png"
+			"itako.8192/texture_00.png"
 		],
-		"Physics": "Itako_Pro_ver.1.1.physics3.json",
-		"DisplayInfo": "Itako_Pro_ver.1.1.cdi3.json"
+		"Physics": "itako.physics3.json",
+		"DisplayInfo": "itako.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/motion1.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			],
+			"TapBody": [
+				{
+					"File": "motions/motion1.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/motion2.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/motion3.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			]
+		}
 	},
 	"Groups": [
 		{

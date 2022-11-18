@@ -1,24 +1,35 @@
 {
 	"Version": 3,
 	"FileReferences": {
-		"Moc": "Kiritan_MODEL_ver.1.0.moc3",
+		"Moc": "kiritan.moc3",
 		"Textures": [
-			"Kiritan_MODEL_ver.1.0.2048/texture_00.png"
+			"kiritan.2048/texture_00.png"
 		],
-		"Physics": "Kiritan_MODEL_ver.1.0.physics3.json",
-		"DisplayInfo": "Kiritan_MODEL_ver.1.0.cdi3.json",
+		"Physics": "kiritan.physics3.json",
+		"DisplayInfo": "kiritan.cdi3.json",
 		"Motions": {
 			"Idle": [
 				{
-					"File": "motions/mojimoji.mtn"
+					"File": "motions/motion1.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
 				}
 			],
 			"TapBody": [
 				{
-					"File": "motions/motion_11.motion3.json"
+					"File": "motions/motion1.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
 				},
 				{
-					"File": "motions/motion_22.motion3.json"
+					"File": "motions/motion2.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/motion3.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
 				}
 			]
 		}
