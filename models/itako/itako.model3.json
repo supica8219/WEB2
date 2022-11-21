@@ -6,7 +6,33 @@
 			"itako.8192/texture_00.png"
 		],
 		"Physics": "itako.physics3.json",
-		"DisplayInfo": "itako.cdi3.json"
+		"DisplayInfo": "itako.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/motion1.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			],
+			"TapBody": [
+				{
+					"File": "motions/motion1.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/motion2.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/motion3.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			]
+		}
 	},
 	"Groups": [
 		{
