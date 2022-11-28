@@ -1,17 +1,103 @@
 {
 	"Version": 3,
 	"Meta": {
-		"Duration": 1.567,
+		"Duration": 1.57,
 		"Fps": 30.0,
 		"Loop": true,
 		"AreBeziersRestricted": true,
-		"CurveCount": 1,
-		"TotalSegmentCount": 4,
-		"TotalPointCount": 11,
+		"CurveCount": 10,
+		"TotalSegmentCount": 21,
+		"TotalPointCount": 49,
 		"UserDataCount": 0,
 		"TotalUserDataSize": 0
 	},
 	"Curves": [
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_ANGLE_Z",
+			"Segments": [
+				0,
+				0,
+				0,
+				1.567,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_BROW_L_FORM",
+			"Segments": [
+				0,
+				0,
+				0,
+				1.4,
+				0,
+				1,
+				1.422,
+				0,
+				1.444,
+				-1,
+				1.467,
+				-1,
+				0,
+				1.567,
+				-1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_BROW_R_FORM",
+			"Segments": [
+				0,
+				0,
+				0,
+				1.4,
+				0,
+				1,
+				1.422,
+				0,
+				1.444,
+				-1,
+				1.467,
+				-1,
+				0,
+				1.567,
+				-1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_MOUTH_FORM",
+			"Segments": [
+				0,
+				1,
+				0,
+				1.567,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_MOUTH_OPEN_Y",
+			"Segments": [
+				0,
+				1,
+				0,
+				1.567,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_CHEEK",
+			"Segments": [
+				0,
+				0,
+				0,
+				1.567,
+				0
+			]
+		},
 		{
 			"Target": "Parameter",
 			"Id": "PARAM_BODY_ANGLE_Y",
@@ -42,6 +128,67 @@
 				0,
 				1.567,
 				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_ALL_MOVE",
+			"Segments": [
+				0,
+				0,
+				1,
+				0.078,
+				0,
+				0.156,
+				3,
+				0.233,
+				3,
+				1,
+				0.344,
+				3,
+				0.456,
+				-3,
+				0.567,
+				-3,
+				1,
+				0.733,
+				-3,
+				0.9,
+				3,
+				1.067,
+				3,
+				1,
+				1.167,
+				3,
+				1.267,
+				0,
+				1.367,
+				0,
+				0,
+				1.567,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "PARAM_FURISODE_YURE",
+			"Segments": [
+				0,
+				0,
+				0,
+				1.567,
+				0
+			]
+		},
+		{
+			"Target": "PartOpacity",
+			"Id": "PARTS_02_MOUTH_006",
+			"Segments": [
+				0,
+				1,
+				0,
+				1.57,
+				1
 			]
 		}
 	]

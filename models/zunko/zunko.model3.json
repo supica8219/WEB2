@@ -5,7 +5,6 @@
 		"Textures": [
 			"zunko.2048/texture_00.png"
 		],
-		"Physics": "zunko.physics3.json",
 		"DisplayInfo": "zunko.cdi3.json",
 		"Motions": {
 			"Idle": [
@@ -37,12 +36,12 @@
 	"Groups": [
 		{
 			"Target": "Parameter",
-			"Name": "EyeBlink",
+			"Name": "LipSync",
 			"Ids": []
 		},
 		{
 			"Target": "Parameter",
-			"Name": "LipSync",
+			"Name": "EyeBlink",
 			"Ids": []
 		}
 	]

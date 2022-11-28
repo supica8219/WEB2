@@ -17,6 +17,8 @@ var room_name = getParam('room');
 var chara = getParam('chara');
 var user_name = getParam('name');
 var room_mode = "multi";
+var canvas = document.getElementById('my-live2d');
+canvas.style.display = "none"
 const sound = new Howl({
   src: ['/static/image/PC-Keyboard01-Enter2.mp3']
 });
@@ -92,14 +94,18 @@ socket.on('ret_table2',(table,room_name,turn,white_num,black_num) => {
   
 });
 socket.on('ret_role',(white,black,white_chara,black_chara)=>{
+    console.log(white,black,white_chara,black_chara)
     document.getElementById('role').innerHTML = "黒:" + black+ "<br>" + "白:" +white;
-    if(white_chara!="" && black_chara!=""){
+    if(white_chara!="" && black_chara!="" && white_chara!="-----" && black_chara!="-----"){
+      canvas.style.display = "block";
       if(myrole == "black"){
         dododo(white_chara,black_chara);
       }
       if(myrole == "white"){
         dododo(black_chara,white_chara);
       }
+    }else{
+      canvas.style.display = "none";
     }
 })
 socket.on('emotion',(number)=>{
