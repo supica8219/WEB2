@@ -288,10 +288,10 @@ io.on('connection', function(socket) {
     }
     if(users[socket.id].room!=""){
       var room_name=users[socket.id].room
-      console.log(room_name+"ccc")
+      console.log(room_name)
     if(users.hasOwnProperty(rooms[room_name].whiteID)){var white_user = users[rooms[room_name].whiteID].name;}else {var white_user = "-----"}
     if(users.hasOwnProperty(rooms[room_name].blackID)){var black_user = users[rooms[room_name].blackID].name;}else {var black_user = "-----"}
-      io.to(room_name).emit('ret_role',white_user,black_user)
+      io.to(room_name).emit('ret_role',white_user,black_user,)
     }
   });
 });
