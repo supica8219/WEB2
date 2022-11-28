@@ -273,7 +273,7 @@ io.on('connection', function(socket) {
       if(rooms[room_name].bot==true && !((rooms[room_name].turn==1&&role=="black")||(rooms[room_name].turn==2&&role=="white"))){
         botAction(room_name);
       }else{
-        console.log(rooms[room_name].bot,rooms[room_name].turn,role)
+        //console.log(rooms[room_name].bot,rooms[room_name].turn,role)
       }
     }
   });
@@ -381,10 +381,10 @@ function botAction(room_name){
     var row = -999,column = -999,value;
     var level = rooms[room_name].level;
     [row,column,value]  = ret_cell(table,0,0,-999,level,turn)
-    
+    console.log(value);
+    if(value== 45)io.to(room_name).emit('emotion',2);
     //無ければ返却
     if(row==-999){return;}
-    console.log(row,column,"-----")
     var affectedDiscs = getAffectedDiscs(row,column,table,turn);
     flipDiscs(affectedDiscs,table);
     table[row][column] = turn;
@@ -397,7 +397,7 @@ function botAction(room_name){
     }else if(turn==2 && canMove(1,table)){
       rooms[room_name].turn=1;
     }else{
-      botAction3(room_name);
+      botAction(room_name);
     }
     io.to(room_name).emit('ret_table',table,room_name,rooms[room_name].turn,ret_count(table,2),ret_count(table,1));
     return;

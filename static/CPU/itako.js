@@ -79,6 +79,10 @@ function drawDiscs(){
     discLayer.appendChild(tr);
   } 
 }
+socket.on('emotion',(number)=>{
+  console.log(number)
+  app.stage.children[1].internalModel.motionManager.startMotion('TapBody',number,2)
+})
 //PRINT RETURN TABLE
 socket.on('ret_table',(table,room_name,turn,white_num,black_num) => {
   sound.play();
