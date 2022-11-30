@@ -96,7 +96,9 @@ socket.on('ret_table2',(table,room_name,turn,white_num,black_num) => {
 socket.on('ret_role',(white,black,white_chara,black_chara)=>{
     console.log(white,black,white_chara,black_chara)
     document.getElementById('role').innerHTML = "黒:" + black+ "<br>" + "白:" +white;
-    if(white_chara!="" && black_chara!="" && white_chara!="-----" && black_chara!="-----"){
+    if(white_chara==undefined || black_chara==undefined){ 
+      canvas.style.display = "none";
+    }else if(white_chara!="" && black_chara!="" && white_chara!="-----" && black_chara!="-----"){
       canvas.style.display = "block";
       if(myrole == "black"){
         dododo(white_chara,black_chara);
@@ -104,9 +106,8 @@ socket.on('ret_role',(white,black,white_chara,black_chara)=>{
       if(myrole == "white"){
         dododo(black_chara,white_chara);
       }
-    }else{
-      canvas.style.display = "none";
     }
+
 })
 socket.on('emotion',(number)=>{
   app.stage.children[1].internalModel.motionManager.startMotion('TapBody',number,2)

@@ -87,7 +87,10 @@ socket.on('ret_table',(table,room_name,turn,white_num,black_num) => {
   discs=table
   drawDiscs()
 });
-
+socket.on('emotion',(number)=>{
+  console.log(number)
+  app.stage.children[1].internalModel.motionManager.startMotion('TapBody',number,2)
+})
 socket.on('connect',()=>{
   gameStart();
 });

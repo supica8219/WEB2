@@ -84,12 +84,13 @@ socket.on('ret_table',(table,room_name,turn,white_num,black_num) => {
   sound.play();
   document.getElementById('bp2').innerHTML = black_num;
   document.getElementById('wp2').innerHTML = white_num;
-  discs=table
-  console.log(table)
   console.log(room_name)
   drawDiscs()
 });
-
+socket.on('emotion',(number)=>{
+  console.log(number+"aaaaaaa")
+  app.stage.children[1].internalModel.motionManager.startMotion('TapBody',number,2)
+})
 socket.on('connect',()=>{
   gameStart();
 });

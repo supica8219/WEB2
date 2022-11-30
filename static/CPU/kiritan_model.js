@@ -15,12 +15,12 @@ const {
 const modelUrl = "/static/kiritan/kiritan.model3.json";
 const guideCanvas = document.getElementById("my-guides");
 let currentModel, facemesh;
-
+var app;
 // メインの処理開始
 (async function main() {
 
 	// 2, PixiJSを準備する
-	const app = new PIXI.Application({
+	app = new PIXI.Application({
 		view: document.getElementById("my-live2d"),
 		autoStart: true,
 		backgroundAlpha: 0,
@@ -31,11 +31,10 @@ let currentModel, facemesh;
 	// 3, Live2Dモデルをロードする
 	console.log(modelUrl)
 	currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-	currentModel.scale.set(1.10);
+	currentModel.scale.set(0.8);
 	currentModel.interactive = true;
-	currentModel.anchor.set(0.5, 0.5);
-	currentModel.position.set(window.innerWidth * 0.73, window.innerHeight * 1.0);
-    console.log(currentModel.internalModel.coreModel);
+	currentModel.anchor.set(0.6, 0.5);
+	currentModel.position.set(window.innerWidth * 0.9, window.innerHeight * 1.0);
 	// 4, Live2Dモデルをドラッグ可能にする
 
 	// 4, Live2Dモデルをドラッグ可能にする

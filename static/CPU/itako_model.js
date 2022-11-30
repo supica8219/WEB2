@@ -31,11 +31,10 @@ var app;
 	// 3, Live2Dモデルをロードする
 	console.log(modelUrl)
 	currentModel = await Live2DModel.from(modelUrl, { autoInteract: false });
-	currentModel.scale.set(1);
+	currentModel.scale.set(0.8);
 	currentModel.interactive = true;
-	currentModel.anchor.set(0.5, 0.5);
-	currentModel.position.set(window.innerWidth * 0.8, window.innerHeight * 1.2);
-    console.log(currentModel.internalModel.coreModel);
+	currentModel.anchor.set(0.6, 0.5);
+	currentModel.position.set(window.innerWidth * 0.9, window.innerHeight * 1.0);
 	// 4, Live2Dモデルをドラッグ可能にする
 
 	// 4, Live2Dモデルをドラッグ可能にする
