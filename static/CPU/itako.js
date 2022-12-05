@@ -95,7 +95,7 @@ socket.on('ret_table',(table,room_name,turn,white_num,black_num) => {
 });
 
 socket.on('connect',()=>{
-  gameStart();
+  window.location = "/rooms"
 });
 socket.on('result',(white_point,black_point)=>{
   var result = document.getElementById('result')
