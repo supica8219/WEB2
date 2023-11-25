@@ -247,28 +247,22 @@ io.on('connection', function(socket) {
   socket.on('clickedSquare', function(row,column){
     var room_name = users[socket.id].room;
     var turn = rooms[room_name].turn;
-    var role = users[socket.id].role;
     var table = rooms[room_name].table;
+    var role = users[socket.id].role;
     if(!rooms.hasOwnProperty(room_name)){return;}
+
     //ROLE REFUSE
-    if(role=="black"||role=="white"){}else{return;}
     if(role=="black"&&turn==2){return;}
     if(role=="white"&&turn==1){return;}
 
     if(canClickSpot(row,column,table,turn) == true){
+      //コマをひっくり返す
       var affectedDiscs = getAffectedDiscs(row,column,table,turn);
       flipDiscs(affectedDiscs,table);
       table[row][column] = turn;
-      if(!canMove(1,table) && !canMove(2,table)){
-        io.to(room_name).emit('result',ret_count(table,2),ret_count(table,1))
-        console.log("ゲーム終了");
-      }
-      if(turn==1 && canMove(2,table)){
-        rooms[room_name].turn=2;
-      }
-      if(turn==2 && canMove(1,table)){
-        rooms[room_name].turn=1;
-      }
+      if(endGame(table,room_name)){return;}
+      if(turn==1 && canMove(2,table)){rooms[room_name].turn=2;}
+      if(turn==2 && canMove(1,table)){rooms[room_name].turn=1;}
       io.to(room_name).emit('ret_table',table,room_name,rooms[room_name].turn,ret_count(table,2),ret_count(table,1));
       if(rooms[room_name].bot==true && !((rooms[room_name].turn==1&&role=="black")||(rooms[room_name].turn==2&&role=="white"))){
         botAction(room_name);
@@ -288,14 +282,21 @@ io.on('connection', function(socket) {
     }
     if(users[socket.id].room!=""){
       var room_name=users[socket.id].room
-      console.log(room_name)
-    if(users.hasOwnProperty(rooms[room_name].whiteID)){var white_user = users[rooms[room_name].whiteID].name;}else {var white_user = "-----"}
-    if(users.hasOwnProperty(rooms[room_name].blackID)){var black_user = users[rooms[room_name].blackID].name;}else {var black_user = "-----"}
+      if(users.hasOwnProperty(rooms[room_name].whiteID)){var white_user = users[rooms[room_name].whiteID].name;}else {var white_user = "-----"}
+      if(users.hasOwnProperty(rooms[room_name].blackID)){var black_user = users[rooms[room_name].blackID].name;}else {var black_user = "-----"}
       io.to(room_name).emit('ret_role',white_user,black_user,)
     }
   });
 });
 //FUNCTIONS -------------------------------------------------------------
+//終了判定
+function endGame(table,room_name){
+  if(!canMove(1,table) && !canMove(2,table)){
+    io.to(room_name).emit('result',ret_count(table,4),ret_count(table,1))
+    return true;
+  }
+  return false;
+}
 function canClickSpot(row,column,table,turn){
   if(table[row][column] != 0){
     return false;
@@ -368,10 +369,9 @@ function ret_cell(table,row,column,value,depth,turn){
     [tmp_row,tmp_column,tmp_value] = ret_cell(tmp_table,i,j,value_table[i][j],depth-1,turn==1?2:1)
     if(r_value<tmp_value){r_row = i;r_column=j;r_value=tmp_value;}
   }
-  
   return [r_row,r_column,r_value];
 }
-// ハードモード
+// CPUのアクション
 function botAction(room_name){
   //１秒まつ
   sleep(1000).then( () => {
@@ -380,18 +380,13 @@ function botAction(room_name){
     var level = rooms[room_name].level;
     var row = -999,column = -999,value;
     var level = rooms[room_name].level;
+    if(!canMove(turn,table)){return;}
     [row,column,value]  = ret_cell(table,0,0,-999,level,turn)
-    console.log(value);
+    console.log(row,column,value);
     if(value== 45)io.to(room_name).emit('emotion',2);
-    //無ければ返却
-    if(row==-999){return;}
     var affectedDiscs = getAffectedDiscs(row,column,table,turn);
     flipDiscs(affectedDiscs,table);
     table[row][column] = turn;
-    //終了判定
-    if(!canMove(1,table) && !canMove(2,table)){
-      io.to(room_name).emit('result',ret_count(table,4),ret_count(table,1))
-    }
     if(turn==1 && canMove(2,table)){
       rooms[room_name].turn=2;
     }else if(turn==2 && canMove(1,table)){
@@ -399,11 +394,12 @@ function botAction(room_name){
     }else{
       botAction(room_name);
     }
+    if(endGame(table,room_name)){return;}
     io.to(room_name).emit('ret_table',table,room_name,rooms[room_name].turn,ret_count(table,2),ret_count(table,1));
     return;
   })
 }
-
+// 渡された手番の数をカウントして返す
 function ret_count(table,turn){
   var count = 0;
   for(var i=0; i<8; i++){
@@ -446,4 +442,3 @@ app.get('/vs_room',(request, response) => {
 server.listen(4000, function() {
   console.log('Starting server on port 4000');
 });
-

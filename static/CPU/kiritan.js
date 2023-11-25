@@ -95,6 +95,7 @@ socket.on('connect',()=>{
   gameStart();
 });
 socket.on('result',(white_point,black_point)=>{
+  console.log(white_point)
   var result = document.getElementById('result')
   result.style.display = "block"
   document.getElementById('bp').innerHTML = black_point;

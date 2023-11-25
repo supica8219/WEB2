@@ -150,7 +150,7 @@ function send_emotion(number){
   socket.emit('send_emotion',number);
 }
 function new_game(){
-  socket.emit('new_game');
+  window.location = "/"
 }
 function getParam(name, url) {
     if (!url) url = window.location.href;
